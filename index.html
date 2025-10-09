@@ -34,15 +34,15 @@
     .egg {
       width: 70px;
       height: 90px;
-      background: radial-gradient(circle at 40% 30%, #fff 0%, #ffd6e9 90%);
+      background: radial-gradient(circle at 40% 30%, #fff 0%, #ffb6d6 90%);
       border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
-      box-shadow: 0 5px 10px rgba(255, 192, 203, 0.4);
-      animation: wiggle-fast 3s infinite;
-      animation-delay: 0s;
+      box-shadow: 0 5px 10px rgba(255, 182, 193, 0.4);
+      animation: top-wiggle 3s infinite;
+      transform-origin: bottom center;
       position: relative;
     }
 
-    @keyframes wiggle-fast {
+    @keyframes top-wiggle {
       0%, 33%, 100% { transform: rotate(0deg); }
       5% { transform: rotate(5deg); }
       10% { transform: rotate(-5deg); }
