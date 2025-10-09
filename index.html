@@ -29,6 +29,7 @@
       margin-bottom: 20px;
       position: relative;
       height: 140px;
+      cursor: pointer;
     }
 
     .egg {
@@ -127,12 +128,23 @@
       letter-spacing: 1px;
       text-shadow: 0 3px 6px rgba(255, 192, 203, 0.6);
     }
+
+    /* Hello World fade-in */
+    #hello {
+      opacity: 0;
+      transition: opacity 1.5s;
+      font-family: 'Fredoka One', cursive;
+      font-size: 2em;
+      color: #d46a8c;
+      margin-top: 15px;
+    }
   </style>
 </head>
 <body>
   <div class="egg-container">
     <div class="egg"></div>
   </div>
+
   <div class="card">
     <div class="countdown">
       <div class="box"><span id="days">0</span><span class="label">Days</span></div>
@@ -143,7 +155,9 @@
     <!-- 🎵 Play Music Button -->
     <button id="play-btn">Start the vibe 🎶</button>
   </div>
+
   <footer>Come back on November 9</footer>
+  <div id="hello">Hello World</div>
 
   <!-- Background Music -->
   <audio id="bg-music" loop>
@@ -152,6 +166,7 @@
   </audio>
 
   <script>
+    // Countdown
     const target = new Date(2025, 10, 9, 0, 0, 0); // November is month 10
     const daysEl = document.getElementById('days');
     const hoursEl = document.getElementById('hours');
@@ -187,13 +202,27 @@
     update();
     setInterval(update, 1000);
 
-    // Music button interaction
+    // Music & "Hello World" on egg click
+    const egg = document.querySelector('.egg');
+    const helloText = document.getElementById('hello');
     const btn = document.getElementById('play-btn');
     const music = document.getElementById('bg-music');
 
+    egg.addEventListener('click', () => {
+      // Start music
+      music.play();
+
+      // Fade in "Hello World"
+      helloText.style.opacity = 1;
+
+      // Hide play button
+      btn.style.display = 'none';
+    });
+
+    // Optional: allow play button to also start music
     btn.addEventListener('click', () => {
       music.play();
-      btn.style.display = 'none'; // Hide button after playing
+      btn.style.display = 'none';
     });
   </script>
 </body>
