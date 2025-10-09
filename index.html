@@ -3,27 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Countdown to November 9, 2025</title>
+  <title>Countdown — November 9, 2025</title>
   <style>
-    body {
-      background: linear-gradient(180deg, #fff8c4, #fff6a1);
-      color: #444;
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       font-family: 'Poppins', 'Segoe UI', sans-serif;
+      color: #444;
+      background: linear-gradient(180deg, #fff9c0 0%, #fff59d 50%, #fff176 100%);
+      background-attachment: fixed;
+      background-size: cover;
       text-align: center;
-      padding: 40px;
-      transition: background 1s ease-in-out;
-    }
-
-    h1 {
-      font-size: 2em;
-      color: #f0b400;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 1.1em;
-      color: #a68800;
-      margin-top: 0;
     }
 
     .card {
@@ -33,13 +28,6 @@
       padding: 30px;
       display: inline-block;
       min-width: 320px;
-    }
-
-    .time {
-      font-size: 1.3em;
-      color: #f0b400;
-      margin-bottom: 20px;
-      font-weight: 500;
     }
 
     .countdown {
@@ -77,16 +65,13 @@
 
     footer {
       margin-top: 20px;
-      font-size: 1em;
+      font-size: 1.1em;
       color: #a68800;
     }
   </style>
 </head>
 <body>
-  <h1>Countdown to November 9, 2025</h1>
-  <p id="currentTime">Current time loading...</p>
   <div class="card">
-    <div class="time" id="countText">Counting down to November 9, 2025</div>
     <div class="countdown">
       <div class="box"><span id="days">0</span><span class="label">Days</span></div>
       <div class="box"><span id="hours">00</span><span class="label">Hours</span></div>
@@ -102,21 +87,17 @@
     const hoursEl = document.getElementById('hours');
     const minutesEl = document.getElementById('minutes');
     const secondsEl = document.getElementById('seconds');
-    const currentTimeEl = document.getElementById('currentTime');
-    const countText = document.getElementById('countText');
 
     function pad(n) { return String(n).padStart(2, '0'); }
 
     function update() {
       const now = new Date();
-      currentTimeEl.textContent = 'Current date & time: ' + now.toLocaleString();
       const diff = target - now;
       if (diff <= 0) {
         daysEl.textContent = '0';
         hoursEl.textContent = '00';
         minutesEl.textContent = '00';
         secondsEl.textContent = '00';
-        countText.textContent = 'It’s November 9, 2025! Welcome back!';
         return;
       }
       const totalSeconds = Math.floor(diff / 1000);
