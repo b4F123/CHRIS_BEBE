@@ -3,193 +3,121 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Countdown — November 9, 2025</title>
+  <title>Countdown to November 9, 2025 ♡</title>
   <style>
-    :root{
-      --bg:#0f1724; /* deep navy */
-      --card:#0b1220;
-      --accent:#7c5cff;
-      --muted:#9aa7bf;
-      --glass: rgba(255,255,255,0.04);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.12), transparent),
-                  radial-gradient(1000px 500px at 90% 90%, rgba(59,130,246,0.06), transparent),
-                  var(--bg);
-      color:#e6eef8;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:32px;
+    body {
+      background: linear-gradient(180deg, #ffeaf8, #ffe1f2, #fff8fb);
+      color: #444;
+      font-family: 'Poppins', 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      padding: 40px;
     }
 
-    .card{
-      width:min(920px,96vw);
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:18px;
-      padding:28px;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-      display:flex;
-      gap:24px;
-      align-items:center;
+    h1 {
+      font-size: 2em;
+      color: #ff74b1;
+      margin-bottom: 10px;
     }
 
-    .left{
-      width:360px;
-      min-width:260px;
-      display:grid;
-      place-items:center;
+    p {
+      font-size: 1.1em;
+      color: #ff92c2;
+      margin-top: 0;
     }
 
-    .ring{
-      width:260px;height:260px;display:grid;place-items:center;position:relative;
+    .card {
+      background: #fff;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(255, 150, 200, 0.3);
+      padding: 30px;
+      display: inline-block;
+      min-width: 320px;
     }
 
-    svg{display:block}
-
-    .time-large{
-      position:absolute;display:flex;flex-direction:column;align-items:center;gap:6px;
-      text-align:center;
-    }
-    .now{font-size:14px;color:var(--muted)}
-    .left .count{font-size:30px;font-weight:700;letter-spacing:-0.02em}
-    .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.18em}
-
-    .right{
-      flex:1; padding:10px 6px;
+    .time {
+      font-size: 1.3em;
+      color: #ff74b1;
+      margin-bottom: 20px;
+      font-weight: 500;
     }
 
-    h1{margin:0;font-size:22px}
-    p.lead{margin:8px 0 18px;color:var(--muted);}
-
-    .grid-nums{
-      display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:6px;
-    }
-    .num-card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:12px;padding:14px;display:flex;flex-direction:column;align-items:center;
-      box-shadow: inset 0 -6px 18px rgba(2,6,23,0.4);
-    }
-    .num{font-weight:800;font-size:22px}
-    .small-label{font-size:11px;color:var(--muted);text-transform:uppercase;margin-top:6px}
-
-    .note{margin-top:16px;color:var(--muted);font-size:13px}
-
-    .message{
-      margin-top:18px;padding:14px;border-radius:10px;background:linear-gradient(90deg, rgba(124,92,255,0.09), rgba(59,130,246,0.03));color:#eaf0ff;font-weight:600
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
     }
 
-    footer{margin-top:16px;color:var(--muted);font-size:13px}
+    .box {
+      background: #ffbee6;
+      border-radius: 15px;
+      padding: 20px;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(255, 150, 200, 0.5);
+      font-size: 1.4em;
+      transition: transform 0.2s;
+    }
 
-    /* responsive */
-    @media (max-width:760px){
-      .card{flex-direction:column;align-items:center}
-      .left{width:100%}
-      .right{width:100%}
-      .grid-nums{grid-template-columns:repeat(2,1fr)}
+    .box:hover {
+      transform: scale(1.05);
+    }
+
+    .label {
+      font-size: 0.7em;
+      font-weight: normal;
+      color: #fff5fa;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 1em;
+      color: #ff74b1;
     }
   </style>
 </head>
 <body>
-  <div class="card" role="region" aria-label="Countdown to November 9 2025">
-    <div class="left">
-      <div class="ring" aria-hidden>
-        <!-- circular progress using SVG -->
-        <svg width="260" height="260" viewBox="0 0 260 260">
-          <defs>
-            <linearGradient id="g" x1="0" x2="1">
-              <stop offset="0%" stop-color="#7c5cff" stop-opacity="1"/>
-              <stop offset="100%" stop-color="#3b82f6" stop-opacity="1"/>
-            </linearGradient>
-          </defs>
-          <g transform="translate(130,130)">
-            <circle r="100" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="20"></circle>
-            <circle id="progress" r="100" fill="none" stroke="url(#g)" stroke-width="20" stroke-linecap="round"
-              stroke-dasharray="628.32" stroke-dashoffset="628.32" transform="rotate(-90)" />
-          </g>
-        </svg>
-
-        <div class="time-large">
-          <div class="now" id="localNow">Local time</div>
-          <div class="count" id="bigCount">00d 00:00:00</div>
-          <div class="label">Countdown</div>
-        </div>
-      </div>
-      <div class="label" style="margin-top:10px;">Come back at 12am November 9, 2025</div>
-    </div>
-
-    <div class="right">
-      <h1>Countdown to <strong>November 9, 2025 — 00:00</strong></h1>
-      <p class="lead">This stopwatch-style countdown updates live based on your device's local time.</p>
-
-      <div class="grid-nums" role="list">
-        <div class="num-card" role="listitem">
-          <div class="num" id="days">0</div>
-          <div class="small-label">Days</div>
-        </div>
-        <div class="num-card" role="listitem">
-          <div class="num" id="hours">00</div>
-          <div class="small-label">Hours</div>
-        </div>
-        <div class="num-card" role="listitem">
-          <div class="num" id="minutes">00</div>
-          <div class="small-label">Minutes</div>
-        </div>
-        <div class="num-card" role="listitem">
-          <div class="num" id="seconds">00</div>
-          <div class="small-label">Seconds</div>
-        </div>
-      </div>
-
-      <div class="note">Target time is interpreted in your device's local time. If you want a specific timezone countdown, change your system clock or edit the target in the source code.</div>
-
-      <div class="message" id="messageBox">We&apos;re counting down — see you soon.</div>
-      <footer>Tip: open this file in your browser and keep it open to watch the progress.</footer>
+  <h1>🎀 Cute Countdown 🎀</h1>
+  <p id="currentTime">Current time loading...</p>
+  <div class="card">
+    <div class="time" id="countText">Counting down to November 9, 2025 💖</div>
+    <div class="countdown">
+      <div class="box"><span id="days">0</span><span class="label">Days</span></div>
+      <div class="box"><span id="hours">00</span><span class="label">Hours</span></div>
+      <div class="box"><span id="minutes">00</span><span class="label">Minutes</span></div>
+      <div class="box"><span id="seconds">00</span><span class="label">Seconds</span></div>
     </div>
   </div>
+  <footer>💌 Come back on November 9, 2025! 💕</footer>
 
   <script>
-    // target is November 9, 2025 at 00:00 local time
-    const target = new Date(2025, 10, 9, 0, 0, 0); // monthIndex 10 = November
-
+    const target = new Date(2025, 10, 9, 0, 0, 0); // November is month 10
     const daysEl = document.getElementById('days');
     const hoursEl = document.getElementById('hours');
     const minutesEl = document.getElementById('minutes');
     const secondsEl = document.getElementById('seconds');
-    const bigCount = document.getElementById('bigCount');
-    const nowEl = document.getElementById('localNow');
-    const progress = document.getElementById('progress');
-    const messageBox = document.getElementById('messageBox');
+    const currentTimeEl = document.getElementById('currentTime');
+    const countText = document.getElementById('countText');
 
-    // full circumference for r=100: 2πr ≈ 628.318
-    const CIRC = 2 * Math.PI * 100;
+    function pad(n) { return String(n).padStart(2, '0'); }
 
-    function pad(n){return String(n).padStart(2,'0')}
-
-    function update(){
+    function update() {
       const now = new Date();
-      nowEl.textContent = now.toLocaleString();
-
-      let diff = target - now; // milliseconds
-
-      if(diff <= 0){
-        // reached or passed
+      currentTimeEl.textContent = 'Current date & time: ' + now.toLocaleString();
+      const diff = target - now;
+      if (diff <= 0) {
         daysEl.textContent = '0';
         hoursEl.textContent = '00';
         minutesEl.textContent = '00';
         secondsEl.textContent = '00';
-        bigCount.textContent = '00d 00:00:00';
-        progress.style.strokeDashoffset = 0;
-        messageBox.textContent = "COME BACK — it's 12:00 AM on November 9, 2025";
-        messageBox.style.background = 'linear-gradient(90deg, rgba(20,220,140,0.09), rgba(59,130,246,0.03))';
-        messageBox.style.color = '#eafff3';
+        countText.textContent = '💖 It’s November 9, 2025! Welcome back! 💖';
         return;
       }
-
       const totalSeconds = Math.floor(diff / 1000);
       const s = totalSeconds % 60;
       const totalMinutes = Math.floor(totalSeconds / 60);
@@ -202,61 +130,10 @@
       hoursEl.textContent = pad(h);
       minutesEl.textContent = pad(m);
       secondsEl.textContent = pad(s);
-      bigCount.textContent = `${d}d ${pad(h)}:${pad(m)}:${pad(s)}`;
-
-      // compute progress: fraction of current day elapsed (for ring animation)
-      const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0,0,0);
-      const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0,0,0);
-      const dayFraction = (now - startOfToday) / (endOfToday - startOfToday); // 0..1
-
-      // set dashoffset so ring shows fraction remaining until target in days proportionally
-      // We'll map remaining fraction of total remaining time relative to initial span between now and target when page loaded.
-      if(!window._initialTotal){
-        window._initialTotal = (target - (window._initialNow || now));
-      }
-      const remaining = diff;
-      const frac = Math.max(0, Math.min(1, remaining / window._initialTotal));
-      progress.style.strokeDasharray = CIRC.toFixed(2);
-      progress.style.strokeDashoffset = (CIRC * (1 - frac)).toFixed(2);
-
-      // subtle message updates
-      if(d > 1){
-        messageBox.textContent = `Still ${d} day(s) to go — come back at 12am November 9, 2025.`;
-      } else if(d === 1){
-        messageBox.textContent = `Only 1 day left — prepare to return at 12am November 9, 2025.`;
-      } else if(h >= 1){
-        messageBox.textContent = `Less than a day — ${h} hour(s) left.`;
-      } else {
-        messageBox.textContent = `Final countdown — ${m} minute(s) and ${s} second(s) remaining.`;
-      }
     }
 
-    // remember initial now for consistent progress mapping
-    window._initialNow = new Date();
-
-    // initial draw
     update();
-    // update every 250ms for smooth ring
-    const timer = setInterval(update, 250);
-
-    // accessibility: announce when reached
-    function announceDone(){
-      const live = document.createElement('div');
-      live.setAttribute('aria-live','polite');
-      live.style.position='absolute';live.style.left='-9999px';
-      live.textContent = "Countdown reached: November 9, 2025 00:00";
-      document.body.appendChild(live);
-    }
-
-    // detect hitting zero
-    const checkZero = setInterval(()=>{
-      if(new Date() >= target){
-        clearInterval(checkZero);
-        announceDone();
-        clearInterval(timer);
-      }
-    },500);
-
+    setInterval(update, 1000);
   </script>
 </body>
 </html>
