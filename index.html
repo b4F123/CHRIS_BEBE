@@ -100,6 +100,25 @@
       margin-top: 5px;
     }
 
+    #play-btn {
+      margin-top: 25px;
+      padding: 12px 25px;
+      background-color: #ffb6c1;
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-size: 1em;
+      font-family: 'Fredoka One', cursive;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    #play-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(255, 182, 193, 0.4);
+    }
+
     footer {
       margin-top: 30px;
       font-family: 'Fredoka One', cursive;
@@ -121,11 +140,13 @@
       <div class="box"><span id="minutes">00</span><span class="label">Minutes</span></div>
       <div class="box"><span id="seconds">00</span><span class="label">Seconds</span></div>
     </div>
+    <!-- 🎵 Play Music Button -->
+    <button id="play-btn">Start the vibe 🎶</button>
   </div>
   <footer>Come back on November 9</footer>
 
   <!-- Background Music -->
-  <audio autoplay loop>
+  <audio id="bg-music" loop>
     <source src="Yasumu_-_Sundays_(mp3.pm).mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
@@ -165,8 +186,15 @@
 
     update();
     setInterval(update, 1000);
+
+    // Music button interaction
+    const btn = document.getElementById('play-btn');
+    const music = document.getElementById('bg-music');
+
+    btn.addEventListener('click', () => {
+      music.play();
+      btn.style.display = 'none'; // Hide button after playing
+    });
   </script>
 </body>
 </html>
-
-
