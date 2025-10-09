@@ -22,6 +22,52 @@
       text-align: center;
     }
 
+    .egg-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin-bottom: 30px;
+      position: relative;
+      height: 120px;
+    }
+
+    .egg {
+      width: 70px;
+      height: 90px;
+      background: radial-gradient(circle at 40% 30%, #fff 0%, #ffd6e9 90%);
+      border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+      box-shadow: 0 5px 10px rgba(255, 192, 203, 0.4);
+      animation: hop 3s ease-in-out infinite;
+      position: relative;
+    }
+
+    .egg-shadow {
+      position: absolute;
+      bottom: 0;
+      width: 60px;
+      height: 12px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      filter: blur(3px);
+      left: 50%;
+      transform: translateX(-50%);
+      animation: shadow 3s ease-in-out infinite;
+    }
+
+    @keyframes hop {
+      0%, 100% { transform: translateY(0) scaleY(1); }
+      20% { transform: translateY(-30px) scaleY(1.1); }
+      25% { transform: translateY(-35px) scaleY(1); }
+      30% { transform: translateY(-30px) scaleY(1.1); }
+      50% { transform: translateY(0) scaleY(0.95); }
+    }
+
+    @keyframes shadow {
+      0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.25; }
+      20%, 30% { transform: translateX(-50%) scale(0.7); opacity: 0.1; }
+      50% { transform: translateX(-50%) scale(1.1); opacity: 0.2; }
+    }
+
     .card {
       background: #fff8fb;
       border-radius: 20px;
@@ -78,6 +124,10 @@
   </style>
 </head>
 <body>
+  <div class="egg-container">
+    <div class="egg"></div>
+    <div class="egg-shadow"></div>
+  </div>
   <div class="card">
     <div class="countdown">
       <div class="box"><span id="days">0</span><span class="label">Days</span></div>
