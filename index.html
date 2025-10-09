@@ -1,231 +1,83 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Countdown — November 9, 2025</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Poppins', 'Segoe UI', sans-serif;
-      color: #444;
-      background: linear-gradient(180deg, #ffe4f2 0%, #ffd9ec 50%, #ffcfe6 100%);
-      background-attachment: fixed;
-      background-size: cover;
-      text-align: center;
+<script>
+  // Countdown
+  const target = new Date(2025, 10, 9, 0, 0, 0); // November is month 10
+  const daysEl = document.getElementById('days');
+  const hoursEl = document.getElementById('hours');
+  const minutesEl = document.getElementById('minutes');
+  const secondsEl = document.getElementById('seconds');
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function update() {
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) {
+      daysEl.textContent = '0';
+      hoursEl.textContent = '00';
+      minutesEl.textContent = '00';
+      secondsEl.textContent = '00';
+      return;
     }
+    const totalSeconds = Math.floor(diff / 1000);
+    const s = totalSeconds % 60;
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const m = totalMinutes % 60;
+    const totalHours = Math.floor(totalMinutes / 60);
+    const h = totalHours % 24;
+    const d = Math.floor(totalHours / 24);
 
-    .egg-container {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      margin-bottom: 20px;
-      position: relative;
-      height: 140px;
-      cursor: pointer;
-    }
+    daysEl.textContent = d;
+    hoursEl.textContent = pad(h);
+    minutesEl.textContent = pad(m);
+    secondsEl.textContent = pad(s);
+  }
 
-    .egg {
-      width: 70px;
-      height: 90px;
-      background: radial-gradient(circle at 40% 30%, #ffffff 0%, #d3d3d3 90%);
-      border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
-      box-shadow: 0 5px 10px rgba(200, 200, 200, 0.4);
-      animation: top-wiggle 3s infinite;
-      transform-origin: bottom center;
-      position: relative;
-      z-index: 1;
-    }
+  update();
+  setInterval(update, 1000);
 
-    @keyframes top-wiggle {
-      0%, 33%, 100% { transform: rotate(0deg); }
-      5% { transform: rotate(5deg); }
-      10% { transform: rotate(-5deg); }
-      15% { transform: rotate(5deg); }
-      20% { transform: rotate(-5deg); }
-      25% { transform: rotate(3deg); }
-      30% { transform: rotate(-3deg); }
-      33% { transform: rotate(0deg); }
-      34%, 100% { transform: rotate(0deg); }
-    }
+  // Music & "Hello World" on egg click
+  const egg = document.querySelector('.egg');
+  const helloText = document.getElementById('hello');
+  const btn = document.getElementById('play-btn');
+  const music = document.getElementById('bg-music');
 
-    .card {
-      background: #fff8fb;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
-      padding: 30px;
-      display: inline-block;
-      min-width: 320px;
-    }
+  // Lines to display
+  const lines = [
+    "Hello,",
+    "world",
+    "I'm glad u found this easter egg!",
+    "is it a bit sad as of writing this code :("
+  ];
 
-    .countdown {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
+  egg.addEventListener('click', () => {
+    // Start music
+    music.play();
 
-    .box {
-      background: #f9a7c3;
-      border-radius: 20px;
-      padding: 20px;
-      width: 90px;
-      height: 90px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-family: 'Fredoka One', cursive;
-      font-weight: bold;
-      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
-      font-size: 1.6em;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+    // Hide play button
+    btn.style.display = 'none';
 
-    .box:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 14px rgba(255, 105, 180, 0.4);
-    }
+    // Clear text & fade in container
+    helloText.style.opacity = 1;
+    helloText.innerHTML = "";
 
-    .label {
-      font-size: 0.7em;
-      font-weight: normal;
-      color: rgba(255, 255, 255, 0.95);
-      margin-top: 5px;
-    }
-
-    #play-btn {
-      margin-top: 25px;
-      padding: 12px 25px;
-      background-color: #ffb6c1;
-      border: none;
-      border-radius: 30px;
-      color: white;
-      font-size: 1em;
-      font-family: 'Fredoka One', cursive;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    #play-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 16px rgba(255, 182, 193, 0.4);
-    }
-
-    footer {
-      margin-top: 30px;
-      font-family: 'Fredoka One', cursive;
-      font-size: 2.3em;
-      color: #d46a8c;
-      letter-spacing: 1px;
-      text-shadow: 0 3px 6px rgba(255, 192, 203, 0.6);
-    }
-
-    /* Hello World fade-in */
-    #hello {
-      opacity: 0;
-      transition: opacity 1.5s;
-      font-family: 'Fredoka One', cursive;
-      font-size: 2em;
-      color: #d46a8c;
-      margin-top: 15px;
-    }
-  </style>
-</head>
-<body>
-  <div class="egg-container">
-    <div class="egg"></div>
-  </div>
-
-  <div class="card">
-    <div class="countdown">
-      <div class="box"><span id="days">0</span><span class="label">Days</span></div>
-      <div class="box"><span id="hours">00</span><span class="label">Hours</span></div>
-      <div class="box"><span id="minutes">00</span><span class="label">Minutes</span></div>
-      <div class="box"><span id="seconds">00</span><span class="label">Seconds</span></div>
-    </div>
-    <!-- 🎵 Play Music Button -->
-    <button id="play-btn">lalalaala</button>
-  </div>
-
-  <footer>Come back on November 9</footer>
-  <div id="hello">Hi, I'm glad u found this easter egg!,br>is it a bit sad as of writing this code :(</div>
-
-  <!-- Background Music -->
-  <audio id="bg-music" loop>
-    <source src="Yasumu_-_Sundays_(mp3.pm).mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-
-  <script>
-    // Countdown
-    const target = new Date(2025, 10, 9, 0, 0, 0); // November is month 10
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
-    const minutesEl = document.getElementById('minutes');
-    const secondsEl = document.getElementById('seconds');
-
-    function pad(n) { return String(n).padStart(2, '0'); }
-
-    function update() {
-      const now = new Date();
-      const diff = target - now;
-      if (diff <= 0) {
-        daysEl.textContent = '0';
-        hoursEl.textContent = '00';
-        minutesEl.textContent = '00';
-        secondsEl.textContent = '00';
-        return;
+    // Display lines one by one
+    let index = 0;
+    function showNextLine() {
+      if (index < lines.length) {
+        const line = document.createElement("div");
+        line.textContent = lines[index];
+        helloText.appendChild(line);
+        index++;
+        setTimeout(showNextLine, 500); // 0.5s delay between lines
       }
-      const totalSeconds = Math.floor(diff / 1000);
-      const s = totalSeconds % 60;
-      const totalMinutes = Math.floor(totalSeconds / 60);
-      const m = totalMinutes % 60;
-      const totalHours = Math.floor(totalMinutes / 60);
-      const h = totalHours % 24;
-      const d = Math.floor(totalHours / 24);
-
-      daysEl.textContent = d;
-      hoursEl.textContent = pad(h);
-      minutesEl.textContent = pad(m);
-      secondsEl.textContent = pad(s);
     }
 
-    update();
-    setInterval(update, 1000);
+    showNextLine();
+  });
 
-    // Music & "Hello World" on egg click
-    const egg = document.querySelector('.egg');
-    const helloText = document.getElementById('hello');
-    const btn = document.getElementById('play-btn');
-    const music = document.getElementById('bg-music');
-
-    egg.addEventListener('click', () => {
-      // Start music
-      music.play();
-
-      // Fade in "Hello World"
-      helloText.style.opacity = 1;
-
-      // Hide play button
-      btn.style.display = 'none';
-    });
-
-    // Optional: allow play button to also start music
-    btn.addEventListener('click', () => {
-      music.play();
-      btn.style.display = 'none';
-    });
-  </script>
-</body>
-</html>
-
-
+  // Optional: allow play button to also start music
+  btn.addEventListener('click', () => {
+    music.play();
+    btn.style.display = 'none';
+  });
+</script>
