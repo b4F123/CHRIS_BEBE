@@ -119,19 +119,6 @@
       box-shadow: 0 6px 16px rgba(255, 182, 193, 0.4);
     }
 
-    .hello-message {
-      opacity: 0;
-      transition: opacity 1.5s ease;
-      font-family: 'Fredoka One', cursive;
-      font-size: 1.5em;
-      color: #d46a8c;
-      margin-top: 20px;
-    }
-
-    .hello-message.visible {
-      opacity: 1;
-    }
-
     footer {
       margin-top: 30px;
       font-family: 'Fredoka One', cursive;
@@ -153,17 +140,12 @@
       <div class="box"><span id="minutes">00</span><span class="label">Minutes</span></div>
       <div class="box"><span id="seconds">00</span><span class="label">Seconds</span></div>
     </div>
-
-    <!-- 🎵 Music Button -->
-    <button id="play-btn">Click me</button>
+    <!-- 🎵 Play Music Button -->
+    <button id="play-btn">Start the vibe 🎶</button>
   </div>
-
-  <!-- 👋 Hidden Hello Message -->
-  <div id="hello" class="hello-message">Hello world</div>
-
   <footer>Come back on November 9</footer>
 
-  <!-- 🎶 Background Music -->
+  <!-- Background Music -->
   <audio id="bg-music" loop>
     <source src="Yasumu_-_Sundays_(mp3.pm).mp3" type="audio/mpeg">
     Your browser does not support the audio element.
@@ -188,3 +170,31 @@
         secondsEl.textContent = '00';
         return;
       }
+      const totalSeconds = Math.floor(diff / 1000);
+      const s = totalSeconds % 60;
+      const totalMinutes = Math.floor(totalSeconds / 60);
+      const m = totalMinutes % 60;
+      const totalHours = Math.floor(totalMinutes / 60);
+      const h = totalHours % 24;
+      const d = Math.floor(totalHours / 24);
+
+      daysEl.textContent = d;
+      hoursEl.textContent = pad(h);
+      minutesEl.textContent = pad(m);
+      secondsEl.textContent = pad(s);
+    }
+
+    update();
+    setInterval(update, 1000);
+
+    // Music button interaction
+    const btn = document.getElementById('play-btn');
+    const music = document.getElementById('bg-music');
+
+    btn.addEventListener('click', () => {
+      music.play();
+      btn.style.display = 'none'; // Hide button after playing
+    });
+  </script>
+</body>
+</html>
