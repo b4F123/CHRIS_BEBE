@@ -146,6 +146,29 @@
       opacity: 0;
       transition: opacity 0.6s ease-in;
     }
+
+    /* 🌸 New styles for image row */
+    .image-row {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+      opacity: 0;
+      transition: opacity 1.5s ease-in;
+    }
+
+    .image-row img {
+      width: 90px;
+      height: 90px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .image-row img:hover {
+      transform: scale(1.08);
+    }
   </style>
 </head>
 <body>
@@ -213,27 +236,25 @@
     const btn = document.getElementById('play-btn');
     const music = document.getElementById('bg-music');
 
-    // ✨ Lines (6 available)
     const lines = [
-    "Hi Jess",
-    "Glad you found this easter egg!",
-    "I miss you in ways I can’t put into words",
-    "I wish I could be there when you’re tired and need peace",
-    "or share with you the joys of life",
-    "You’re truly special to me",
-    "The break will come to an end",
-    "And we'll look back and be proud of what we've endured for each other",
-    "Out of Love and God's grace",
-    "I love you so much",
-    "I really, really do!",
-    "We're strong!",
-    "We're supported!",
-    "We got this 😎"
+      "Hi Jess",
+      "Glad you found this easter egg!",
+      "I miss you in ways I can’t put into words",
+      "I wish I could be there when you’re tired and need peace",
+      "or share with you the joys of life",
+      "You’re truly special to me",
+      "The break will come to an end",
+      "And we'll look back and be proud of what we've endured for each other",
+      "Out of Love and God's grace",
+      "I love you so much",
+      "I really, really do!",
+      "We're strong!",
+      "We're supported!",
+      "We got this 😎"
     ];
 
     egg.addEventListener('click', () => {
       music.play();
-      btn.style.display = 'none';
       helloText.style.opacity = 1;
       helloText.innerHTML = "";
 
@@ -244,58 +265,35 @@
           line.classList.add("line");
           line.textContent = lines[index];
           helloText.appendChild(line);
-          // Fade in after appended
           setTimeout(() => { line.style.opacity = 1; }, 50);
         }
         index++;
+
         if (index < lines.length) {
-          setTimeout(showNextLine, 4000); // 0.5s delay
+          setTimeout(showNextLine, 4000);
+        } else {
+          // 🌸 Show images after last line
+          setTimeout(() => {
+            const imgContainer = document.createElement("div");
+            imgContainer.classList.add("image-row");
+
+            const imgNames = ["jessme1", "jessme2", "jessme3"];
+            imgNames.forEach(name => {
+              const img = document.createElement("img");
+              img.src = `${name}.jpg`; // or .png
+              img.alt = name;
+              img.classList.add("fade-img");
+              imgContainer.appendChild(img);
+            });
+
+            helloText.appendChild(imgContainer);
+            setTimeout(() => imgContainer.style.opacity = 1, 100);
+          }, 4000); // delay after last line
         }
       }
 
       showNextLine();
     });
-
-    btn.addEventListener('click', () => {
-      music.play();
-      btn.style.display = 'none';
-    });
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
