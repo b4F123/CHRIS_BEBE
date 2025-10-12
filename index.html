@@ -20,6 +20,7 @@
       background-attachment: fixed;
       background-size: cover;
       text-align: center;
+      overflow-x: hidden;
     }
 
     .egg-container {
@@ -147,7 +148,7 @@
       transition: opacity 0.6s ease-in;
     }
 
-    /* 🌸 New styles for image row */
+    /* 🌸 Image row */
     .image-row {
       display: flex;
       justify-content: center;
@@ -158,8 +159,8 @@
     }
 
     .image-row img {
-      width: 200px;
-      height: 200px;
+      width: 150px;
+      height: 150px;
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
       object-fit: cover;
@@ -185,7 +186,7 @@
     </div>
   </div>
 
-  <footer>Audio On!</footer>
+  <footer>Come back on November 9</footer>
   <div id="hello"></div>
 
   <audio id="bg-music" loop>
@@ -233,13 +234,11 @@
     // Easter egg logic
     const egg = document.querySelector('.egg');
     const helloText = document.getElementById('hello');
-    const btn = document.getElementById('play-btn');
     const music = document.getElementById('bg-music');
 
     const lines = [
       "Hi Jess",
-      "You found the easter egg!",
-      "I miss u daily",
+      "Glad you found this easter egg!",
       "I miss you in ways I can’t put into words",
       "I wish I could be there when you’re tired and need peace",
       "or share with you the joys of life",
@@ -249,9 +248,9 @@
       "Out of Love and God's grace",
       "I love you so much",
       "I really, really do!",
-      "We're strong and supported!",
-      "We got this bebe :3"
-      
+      "We're strong!",
+      "We're supported!",
+      "We got this 😎"
     ];
 
     egg.addEventListener('click', () => {
@@ -266,14 +265,17 @@
           line.classList.add("line");
           line.textContent = lines[index];
           helloText.appendChild(line);
-          setTimeout(() => { line.style.opacity = 1; }, 50);
+          setTimeout(() => { 
+            line.style.opacity = 1; 
+            line.scrollIntoView({ behavior: 'smooth', block: 'end' });
+          }, 50);
         }
         index++;
 
         if (index < lines.length) {
           setTimeout(showNextLine, 4000);
         } else {
-          // 🌸 Show images after last line
+          // Show images after last line
           setTimeout(() => {
             const imgContainer = document.createElement("div");
             imgContainer.classList.add("image-row");
@@ -288,8 +290,11 @@
             });
 
             helloText.appendChild(imgContainer);
-            setTimeout(() => imgContainer.style.opacity = 1, 100);
-          }, 4000); // delay after last line
+            setTimeout(() => { 
+              imgContainer.style.opacity = 1;
+              imgContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }, 100);
+          }, 4000);
         }
       }
 
@@ -298,9 +303,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
