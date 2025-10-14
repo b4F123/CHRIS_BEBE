@@ -106,12 +106,13 @@
     .progress-container {
       width: 100%;
       max-width: 400px;
-      height: 20px;
+      height: 24px;
       background-color: #ffe4f2;
       border-radius: 15px;
       overflow: hidden;
       margin: 25px auto 0 auto;
       box-shadow: inset 0 2px 5px rgba(255, 182, 193, 0.4);
+      position: relative;
     }
 
     .progress-bar {
@@ -120,6 +121,21 @@
       background: linear-gradient(90deg, #f98bb3, #ffb6c1);
       border-radius: 15px 0 0 15px;
       transition: width 1s ease-in-out;
+    }
+
+    .progress-text {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      font-family: 'Fredoka One', cursive;
+      color: #d46a8c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95em;
+      pointer-events: none;
     }
 
     footer {
@@ -188,6 +204,7 @@
 
     <div class="progress-container">
       <div class="progress-bar" id="progress-bar"></div>
+      <div class="progress-text" id="progress-text">0% done</div>
     </div>
   </div>
 
@@ -210,6 +227,7 @@
     const minutesEl = document.getElementById('minutes');
     const secondsEl = document.getElementById('seconds');
     const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
 
     function pad(n) { return String(n).padStart(2, '0'); }
 
@@ -223,6 +241,7 @@
         minutesEl.textContent = '00';
         secondsEl.textContent = '00';
         progressBar.style.width = '100%';
+        progressText.textContent = '100% done 🎉';
         return;
       }
 
@@ -243,7 +262,10 @@
       const totalDuration = target - start;
       const elapsed = now - start;
       const progress = Math.min(Math.max(elapsed / totalDuration, 0), 1);
-      progressBar.style.width = (progress * 100).toFixed(2) + '%';
+      const percent = (progress * 100).toFixed(1);
+
+      progressBar.style.width = percent + '%';
+      progressText.textContent = `${percent}% done`;
     }
 
     updateCountdown();
