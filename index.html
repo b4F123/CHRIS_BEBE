@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Countdown — November 9, 2025</title>
+  <title>Countdown — December 10, 2025</title>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     html, body {
@@ -102,23 +102,24 @@
       margin-top: 5px;
     }
 
-    #play-btn {
-      margin-top: 25px;
-      padding: 12px 25px;
-      background-color: #ffb6c1;
-      border: none;
-      border-radius: 30px;
-      color: white;
-      font-size: 1em;
-      font-family: 'Fredoka One', cursive;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
-      transition: transform 0.2s, box-shadow 0.2s;
+    /* 🌸 Progress Bar */
+    .progress-container {
+      width: 100%;
+      max-width: 400px;
+      height: 20px;
+      background-color: #ffe4f2;
+      border-radius: 15px;
+      overflow: hidden;
+      margin: 25px auto 0 auto;
+      box-shadow: inset 0 2px 5px rgba(255, 182, 193, 0.4);
     }
 
-    #play-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 16px rgba(255, 182, 193, 0.4);
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f98bb3, #ffb6c1);
+      border-radius: 15px 0 0 15px;
+      transition: width 1s ease-in-out;
     }
 
     footer {
@@ -184,6 +185,10 @@
       <div class="box"><span id="minutes">00</span><span class="label">Minutes</span></div>
       <div class="box"><span id="seconds">00</span><span class="label">Seconds</span></div>
     </div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
   </div>
 
   <footer>Audio On!</footer>
@@ -195,25 +200,32 @@
   </audio>
 
   <script>
-    // Countdown logic
-    const target = new Date(2025, 11, 10, 0, 0, 0);
+    // Dates
+    const start = new Date(2025, 8, 21, 0, 0, 0); // September 21, 2025
+    const target = new Date(2025, 11, 10, 0, 0, 0); // December 10, 2025
+
+    // Elements
     const daysEl = document.getElementById('days');
     const hoursEl = document.getElementById('hours');
     const minutesEl = document.getElementById('minutes');
     const secondsEl = document.getElementById('seconds');
+    const progressBar = document.getElementById('progress-bar');
 
     function pad(n) { return String(n).padStart(2, '0'); }
 
-    function update() {
+    function updateCountdown() {
       const now = new Date();
       const diff = target - now;
+
       if (diff <= 0) {
         daysEl.textContent = '0';
         hoursEl.textContent = '00';
         minutesEl.textContent = '00';
         secondsEl.textContent = '00';
+        progressBar.style.width = '100%';
         return;
       }
+
       const totalSeconds = Math.floor(diff / 1000);
       const s = totalSeconds % 60;
       const totalMinutes = Math.floor(totalSeconds / 60);
@@ -226,10 +238,16 @@
       hoursEl.textContent = pad(h);
       minutesEl.textContent = pad(m);
       secondsEl.textContent = pad(s);
+
+      // Progress calculation
+      const totalDuration = target - start;
+      const elapsed = now - start;
+      const progress = Math.min(Math.max(elapsed / totalDuration, 0), 1);
+      progressBar.style.width = (progress * 100).toFixed(2) + '%';
     }
 
-    update();
-    setInterval(update, 1000);
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
     // Easter egg logic
     const egg = document.querySelector('.egg');
@@ -261,7 +279,7 @@
 
       let index = 0;
       function showNextLine() {
-        if (index < lines.length && lines[index] !== null) {
+        if (index < lines.length) {
           const line = document.createElement("div");
           line.classList.add("line");
           line.textContent = lines[index];
@@ -284,7 +302,7 @@
             const imgNames = ["jessme1", "jessme2", "jessme3"];
             imgNames.forEach(name => {
               const img = document.createElement("img");
-              img.src = `${name}.jpg`; // or .png
+              img.src = `${name}.jpg`;
               img.alt = name;
               img.classList.add("fade-img");
               imgContainer.appendChild(img);
@@ -304,11 +322,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
