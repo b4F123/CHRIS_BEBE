@@ -13,7 +13,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start; /* changed from center to allow full scroll */
       font-family: 'Poppins', 'Segoe UI', sans-serif;
       color: #444;
       background: linear-gradient(180deg, #ffe4f2 0%, #ffd9ec 50%, #ffcfe6 100%);
@@ -22,6 +22,7 @@
       text-align: center;
       overflow-x: hidden;
       scroll-behavior: smooth;
+      min-height: 100vh; /* ensure full height for scroll */
     }
 
     .egg-container {
@@ -29,6 +30,7 @@
       justify-content: center;
       align-items: flex-end;
       gap: 40px;
+      margin-top: 60px;
       margin-bottom: 20px;
       height: 140px;
     }
@@ -64,6 +66,7 @@
       padding: 30px;
       display: inline-block;
       min-width: 320px;
+      margin-bottom: 30px;
     }
 
     .countdown {
@@ -87,6 +90,26 @@
       font-weight: bold;
       box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
       font-size: 1.6em;
+    }
+
+    /* ===== New progress bar styles ===== */
+    .progress-container {
+      width: 80%;
+      max-width: 600px;
+      height: 20px;
+      background: #ffe6f0;
+      border-radius: 20px;
+      margin: 20px auto 40px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff80b5, #ffb6c1);
+      border-radius: 20px;
+      transition: width 1s ease;
     }
 
     #hello, #blue-texts {
@@ -178,6 +201,11 @@
     </div>
   </div>
 
+  <!-- ===== Progress bar element ===== -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
   <div id="hello"></div>
 
   <!-- Blue Egg content -->
@@ -208,18 +236,34 @@
 
   <script>
     /* Countdown */
-    const start = new Date(2025, 8, 21);
-    const target = new Date(2025, 11, 10);
-    const d=document.getElementById('days'),h=document.getElementById('hours'),
-          m=document.getElementById('minutes'),s=document.getElementById('seconds');
+    const start = new Date(2025, 8, 21); // start date
+    const target = new Date(2025, 11, 10); // target date
+
+    const d=document.getElementById('days'),
+          h=document.getElementById('hours'),
+          m=document.getElementById('minutes'),
+          s=document.getElementById('seconds');
+    const bar=document.getElementById('progress-bar');
+
     function pad(n){return String(n).padStart(2,'0');}
+
     function update(){
-      const now=new Date(),diff=target-now;
-      if(diff<=0){d.textContent='0';h.textContent='00';m.textContent='00';s.textContent='00';return;}
-      const t=Math.floor(diff/1000),sec=t%60,min=Math.floor(t/60)%60,hr=Math.floor(t/3600)%24,day=Math.floor(t/86400);
+      const now=new Date();
+      const diff=target-now;
+      const total=target-start;
+      let pct = Math.min(100, Math.max(0, ((total - diff) / total) * 100)); // % complete
+      bar.style.width = pct.toFixed(2) + '%';
+
+      if(diff<=0){d.textContent='0';h.textContent='00';m.textContent='00';s.textContent='00';bar.style.width='100%';return;}
+      const t=Math.floor(diff/1000),
+            sec=t%60,
+            min=Math.floor(t/60)%60,
+            hr=Math.floor(t/3600)%24,
+            day=Math.floor(t/86400);
       d.textContent=day;h.textContent=pad(hr);m.textContent=pad(min);s.textContent=pad(sec);
     }
-    update();setInterval(update,1000);
+    update();
+    setInterval(update,1000);
 
     /* Pink egg */
     const pink=document.getElementById('pink-egg'),pinkMusic=document.getElementById('pink-music');
@@ -263,16 +307,14 @@
       "<a href='https://youtu.be/JPrnZvigomg' target='_blank'>Watch this!</a>"
     ];
 
-
     blue.addEventListener('click',()=>{
       blueMusic.currentTime=0;blueMusic.play();pinkMusic.pause();
       blueTexts.innerHTML="";blueTexts.style.opacity=1;
       gallery.classList.add('show');
       const imgs=gallery.querySelectorAll('img');
       imgs.forEach((img,idx)=>{
-        setTimeout(()=>{img.style.opacity=1;img.scrollIntoView({behavior:"smooth",block:"end"});},idx*700);
+        setTimeout(()=>{img.style.opacity=1;},idx*700);
       });
-      // after photos fade in, show texts
       setTimeout(()=>{
         let i=0;
         function showLine(){
