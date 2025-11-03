@@ -42,13 +42,8 @@
       animation: top-wiggle 3s infinite;
     }
 
-    .egg.pink {
-      background: radial-gradient(circle at 40% 30%, #ffffff 0%, #d3d3d3 90%);
-    }
-
-    .egg.blue {
-      background: radial-gradient(circle at 40% 30%, #cce8ff 0%, #5ca8ff 90%);
-    }
+    .egg.pink { background: radial-gradient(circle at 40% 30%, #ffffff 0%, #d3d3d3 90%); }
+    .egg.blue { background: radial-gradient(circle at 40% 30%, #cce8ff 0%, #5ca8ff 90%); }
 
     @keyframes top-wiggle {
       0%, 33%, 100% { transform: rotate(0deg); }
@@ -91,39 +86,29 @@
       font-weight: bold;
       box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
       font-size: 1.6em;
-      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .box:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 14px rgba(255, 105, 180, 0.4);
-    }
-
-    .label {
-      font-size: 0.7em;
-      font-weight: normal;
-      color: rgba(255, 255, 255, 0.95);
-      margin-top: 5px;
-    }
-
-    #blue-texts {
+    #hello, #blue-texts {
       opacity: 0;
-      transition: opacity 1.5s;
+      transition: opacity 1.5s ease-in;
       font-family: 'Fredoka One', cursive;
-      color: white;
       font-size: 1.8em;
-      text-align: center;
       margin-top: 25px;
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 8px;
     }
 
-    .blue-line {
+    #hello { color: #d46a8c; }
+    #blue-texts { color: white; }
+
+    .line, .blue-line {
       opacity: 0;
       transition: opacity 0.8s ease-in;
     }
 
+    /* image styles */
     .image-gallery {
       display: none;
       flex-direction: column;
@@ -132,9 +117,7 @@
       margin-top: 25px;
     }
 
-    .image-gallery.show {
-      display: flex;
-    }
+    .image-gallery.show { display: flex; }
 
     .image-gallery img {
       border-radius: 10px;
@@ -153,6 +136,30 @@
       justify-content: center;
       gap: 15px;
     }
+
+    .jess-images {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 25px;
+      max-width: 700px;
+      opacity: 0;
+      transition: opacity 1.5s ease-in;
+    }
+
+    .jess-images img {
+      width: 200px;
+      height: 200px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .jess-images img:hover { transform: scale(1.08); }
+
+    a { color: #aee6ff; text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -171,7 +178,11 @@
     </div>
   </div>
 
-  <!-- Blue egg section -->
+  <div id="hello"></div>
+
+  <!-- Blue Egg content -->
+  <div id="blue-texts"></div>
+
   <div id="blue-gallery" class="image-gallery">
     <div class="image-row image-large">
       <img src="baptism1.jpg" alt="Baptism 1">
@@ -186,18 +197,88 @@
     </div>
   </div>
 
-  <div id="blue-texts"></div>
+  <!-- Music -->
+  <audio id="pink-music" loop>
+    <source src="Yasumu_-_Sundays_(mp3.pm).mp3" type="audio/mpeg">
+  </audio>
 
   <audio id="blue-music" loop>
     <source src="gloryandmygood.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    const blueEgg = document.getElementById('blue-egg');
-    const blueGallery = document.getElementById('blue-gallery');
-    const blueTexts = document.getElementById('blue-texts');
-    const blueMusic = document.getElementById('blue-music');
-    const blueLines = [
+    /* Countdown */
+    const start = new Date(2025, 8, 21);
+    const target = new Date(2025, 11, 10);
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minutesEl = document.getElementById('minutes');
+    const secondsEl = document.getElementById('seconds');
+
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function updateCountdown(){
+      const now = new Date();
+      const diff = target - now;
+      if(diff <= 0){ daysEl.textContent='0'; hoursEl.textContent='00'; minutesEl.textContent='00'; secondsEl.textContent='00'; return; }
+      const totalSeconds=Math.floor(diff/1000);
+      const s=totalSeconds%60;
+      const totalMinutes=Math.floor(totalSeconds/60);
+      const m=totalMinutes%60;
+      const totalHours=Math.floor(totalMinutes/60);
+      const h=totalHours%24;
+      const d=Math.floor(totalHours/24);
+      daysEl.textContent=d; hoursEl.textContent=pad(h); minutesEl.textContent=pad(m); secondsEl.textContent=pad(s);
+    }
+    updateCountdown(); setInterval(updateCountdown,1000);
+
+    /* Pink egg */
+    const pinkEgg=document.getElementById('pink-egg');
+    const pinkMusic=document.getElementById('pink-music');
+    const hello=document.getElementById('hello');
+    const pinkLines=[
+      "Hi Jess","You found this easter egg!","I miss you in ways I can’t put into words",
+      "I wish I could be there when you’re tired and need peace","and share with you the joys of life",
+      "You’re truly special to me","When the break ends","We'll look back",
+      "and be proud of what we've endured for each other","Out of Love","Out of God's grace",
+      "I love you so much","I really, really do!","We're strong and supported!","We got this :3"
+    ];
+
+    pinkEgg.addEventListener('click',()=>{
+      pinkMusic.play();
+      document.getElementById('blue-music').pause();
+      hello.style.opacity=1;
+      hello.innerHTML="";
+      let i=0;
+      function next(){
+        if(i<pinkLines.length){
+          const l=document.createElement("div");
+          l.classList.add("line");
+          l.textContent=pinkLines[i];
+          hello.appendChild(l);
+          setTimeout(()=>{l.style.opacity=1;},50);
+          i++; setTimeout(next,4000);
+        } else {
+          setTimeout(()=>{
+            const j=document.createElement("div");
+            j.classList.add("jess-images");
+            ["jessme1.jpg","jessme2.jpg","jessme3.jpg"].forEach(s=>{
+              const img=document.createElement("img");
+              img.src=s; img.alt=s; j.appendChild(img);
+            });
+            hello.appendChild(j);
+            setTimeout(()=>{j.style.opacity=1;},300);
+          },4000);
+        }
+      }
+      next();
+    });
+
+    /* Blue egg */
+    const blueEgg=document.getElementById('blue-egg');
+    const blueMusic=document.getElementById('blue-music');
+    const blueTexts=document.getElementById('blue-texts');
+    const blueGallery=document.getElementById('blue-gallery');
+    const blueLines=[
       "HAI",
       "Happi day yesterday ehehheh",
       "Love flowers from Jess — they mean so much!",
@@ -209,43 +290,35 @@
       "and lock the fareeaaak in",
       "ur so close jess",
       "add oil rahhhh",
-      "https://youtu.be/JPrnZvigomg"
+      "<a href='https://youtu.be/JPrnZvigomg' target='_blank'>Watch this!</a>"
     ];
 
-    blueEgg.addEventListener('click', () => {
-      blueMusic.currentTime = 0;
-      blueMusic.play();
-
-      // show gallery
-      blueGallery.classList.add('show');
-      const images = blueGallery.querySelectorAll('img');
-
-      // fade in images one by one
-      images.forEach((img, index) => {
-        setTimeout(() => {
-          img.style.opacity = 1;
-        }, index * 700);
-      });
-
-      // after all images fade in, start text animation
-      const totalImageTime = images.length * 700 + 500;
-      setTimeout(() => {
-        blueTexts.style.opacity = 1;
-        blueTexts.innerHTML = "";
-        let i = 0;
-        function showBlueLine() {
-          if (i < blueLines.length) {
-            const line = document.createElement("div");
-            line.classList.add("blue-line");
-            line.textContent = blueLines[i];
-            blueTexts.appendChild(line);
-            setTimeout(() => { line.style.opacity = 1; }, 100);
-            i++;
-            setTimeout(showBlueLine, 2500);
-          }
+    blueEgg.addEventListener('click',()=>{
+      blueMusic.currentTime=0; blueMusic.play();
+      pinkMusic.pause();
+      blueTexts.style.opacity=1;
+      blueTexts.innerHTML="";
+      let i=0;
+      function showLine(){
+        if(i<blueLines.length){
+          const l=document.createElement("div");
+          l.classList.add("blue-line");
+          l.innerHTML=blueLines[i];
+          blueTexts.appendChild(l);
+          setTimeout(()=>{l.style.opacity=1;},50);
+          i++; setTimeout(showLine,2500);
+        } else {
+          // After text, fade in images
+          setTimeout(()=>{
+            blueGallery.classList.add('show');
+            const imgs=blueGallery.querySelectorAll('img');
+            imgs.forEach((img,idx)=>{
+              setTimeout(()=>{img.style.opacity=1;},idx*700);
+            });
+          },1000);
         }
-        showBlueLine();
-      }, totalImageTime);
+      }
+      showLine();
     });
   </script>
 </body>
