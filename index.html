@@ -159,20 +159,23 @@
       transition: opacity 0.6s ease-in;
     }
 
-    /* Blue egg text */
+    /* Blue egg text (hidden initially) */
     #blue-texts {
-      text-align: center;
-      margin-top: 40px;
-      color: #3774c9;
+      opacity: 0;
+      transition: opacity 1.5s;
       font-family: 'Fredoka One', cursive;
-    }
-    #blue-texts div:first-child {
+      color: white;
       font-size: 1.8em;
-      font-weight: bold;
+      text-align: center;
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
-    #blue-texts div:last-child {
-      font-size: 1.2em;
-      margin-top: 6px;
+
+    .blue-line {
+      opacity: 0;
+      transition: opacity 0.8s ease-in;
     }
 
     /* Blue egg gallery */
@@ -254,14 +257,10 @@
     </div>
   </div>
 
-  <!-- removed footer -->
   <div id="hello"></div>
 
-  <!-- new blue text section -->
-  <div id="blue-texts">
-    <div>&lt;insert text line 1&gt;</div>
-    <div>&lt;insert text line 2&gt;</div>
-  </div>
+  <!-- Blue egg text and gallery -->
+  <div id="blue-texts"></div>
 
   <div id="blue-gallery" class="image-gallery">
     <div class="image-row image-large">
@@ -380,9 +379,31 @@
     // Blue egg logic
     const blueEgg = document.getElementById('blue-egg');
     const blueGallery = document.getElementById('blue-gallery');
+    const blueTexts = document.getElementById('blue-texts');
+    const blueLines = ["<insert text line 1>", "<insert text line 2>"];
+
     blueEgg.addEventListener('click', () => {
-      blueGallery.classList.toggle('show');
-      blueGallery.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      blueTexts.innerHTML = "";
+      blueTexts.style.opacity = 1;
+      let i = 0;
+      function showBlueLine() {
+        if (i < blueLines.length) {
+          const line = document.createElement("div");
+          line.classList.add("blue-line");
+          line.textContent = blueLines[i];
+          blueTexts.appendChild(line);
+          setTimeout(() => { line.style.opacity = 1; line.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, 100);
+          i++;
+          setTimeout(showBlueLine, 2500);
+        } else {
+          // After both lines, reveal the gallery
+          setTimeout(() => {
+            blueGallery.classList.add('show');
+            blueGallery.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 2500);
+        }
+      }
+      showBlueLine();
     });
   </script>
 </body>
