@@ -159,7 +159,7 @@
       transition: opacity 0.6s ease-in;
     }
 
-    /* Blue egg text (hidden initially) */
+    /* Blue egg text (appears later) */
     #blue-texts {
       opacity: 0;
       transition: opacity 1.5s;
@@ -167,7 +167,7 @@
       color: white;
       font-size: 1.8em;
       text-align: center;
-      margin-top: 30px;
+      margin-top: 25px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -186,7 +186,7 @@
       gap: 15px;
       margin-top: 25px;
       opacity: 0;
-      transition: opacity 1s;
+      transition: opacity 1.5s ease-in;
     }
 
     .image-gallery.show {
@@ -260,8 +260,6 @@
   <div id="hello"></div>
 
   <!-- Blue egg text and gallery -->
-  <div id="blue-texts"></div>
-
   <div id="blue-gallery" class="image-gallery">
     <div class="image-row image-large">
       <img src="baptism1.jpg" alt="Baptism 1">
@@ -276,9 +274,15 @@
     </div>
   </div>
 
+  <div id="blue-texts"></div>
+
+  <!-- Music for both eggs -->
   <audio id="bg-music" loop>
     <source src="Yasumu_-_Sundays_(mp3.pm).mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
+  </audio>
+
+  <audio id="blue-music" loop>
+    <source src="gloryandmygood.mp3" type="audio/mpeg">
   </audio>
 
   <script>
@@ -376,37 +380,39 @@
       showNextLine();
     });
 
-    // Blue egg logic
+    // Blue egg logic (pics first, then text)
     const blueEgg = document.getElementById('blue-egg');
     const blueGallery = document.getElementById('blue-gallery');
     const blueTexts = document.getElementById('blue-texts');
-    const blueLines = ["HAI", "I made this pom pom for u","I hope it may help u study","and lock the fareeaaak in","ur so close jess", "add oil rahhhh","https://youtu.be/JPrnZvigomg"];
+    const blueMusic = document.getElementById('blue-music');
+    const blueLines = ["<insert text line 1>", "<insert text line 2>"];
 
     blueEgg.addEventListener('click', () => {
-      blueTexts.innerHTML = "";
-      blueTexts.style.opacity = 1;
-      let i = 0;
-      function showBlueLine() {
-        if (i < blueLines.length) {
-          const line = document.createElement("div");
-          line.classList.add("blue-line");
-          line.textContent = blueLines[i];
-          blueTexts.appendChild(line);
-          setTimeout(() => { line.style.opacity = 1; line.scrollIntoView({ behavior: 'smooth', block: 'end' }); }, 100);
-          i++;
-          setTimeout(showBlueLine, 2500);
-        } else {
-          // After both lines, reveal the gallery
-          setTimeout(() => {
-            blueGallery.classList.add('show');
-            blueGallery.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }, 2500);
+      blueMusic.play();
+
+      // show gallery first
+      blueGallery.classList.add('show');
+      blueGallery.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // wait for fade-in, then show text lines one by one
+      setTimeout(() => {
+        blueTexts.style.opacity = 1;
+        blueTexts.innerHTML = "";
+        let i = 0;
+        function showBlueLine() {
+          if (i < blueLines.length) {
+            const line = document.createElement("div");
+            line.classList.add("blue-line");
+            line.textContent = blueLines[i];
+            blueTexts.appendChild(line);
+            setTimeout(() => { line.style.opacity = 1; }, 100);
+            i++;
+            setTimeout(showBlueLine, 2500);
+          }
         }
-      }
-      showBlueLine();
+        showBlueLine();
+      }, 1500);
     });
   </script>
 </body>
 </html>
-
-
