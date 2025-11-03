@@ -217,7 +217,7 @@
   <div id="photos"></div>
 
   <audio id="bg-music" loop>
-    <source src="Yasumu_-_Sundays_(mp3.pm).mp3" type="audio/mpeg">
+    <source src="./Yasumu_-_Sundays_(mp3.pm).mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
@@ -267,7 +267,7 @@
       updateCountdown();
       setInterval(updateCountdown,1000);
 
-      // pink egg text
+      // pink egg
       const pinkEgg=document.getElementById('pink-egg');
       const helloText=document.getElementById('hello');
       const music=document.getElementById('bg-music');
@@ -314,14 +314,14 @@
         const row1=document.createElement("div");
         row1.classList.add("image-row");
         const big=document.createElement("img");
-        big.src="baptism1.jpg";
+        big.src="./baptism1.jpg";
         big.style.width="400px";
         big.style.height="400px";
         row1.appendChild(big);
 
         const row2=document.createElement("div");
         row2.classList.add("image-row");
-        ["baptism2.jpg","baptism3.jpg"].forEach(src=>{
+        ["./baptism2.jpg","./baptism3.jpg"].forEach(src=>{
           const img=document.createElement("img");
           img.src=src;
           img.style.width="200px";
@@ -331,7 +331,7 @@
 
         const row3=document.createElement("div");
         row3.classList.add("image-row");
-        ["baptism4.jpg","baptism5.jpg"].forEach(src=>{
+        ["./baptism4.jpg","./baptism5.jpg"].forEach(src=>{
           const img=document.createElement("img");
           img.src=src;
           img.style.width="200px";
