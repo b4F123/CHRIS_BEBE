@@ -312,20 +312,30 @@
     updateCountdown();
     setInterval(updateCountdown,1000);
 
-    // Pink egg logic
-    const egg = document.getElementById('pink-egg');
+    // Easter egg logic
+    const egg = document.querySelector('.egg');
     const helloText = document.getElementById('hello');
     const music = document.getElementById('bg-music');
+
     const lines = [
-      "Hi Jess","You found this easter egg!","I miss you in ways I can’t put into words",
+      "Hi Jess",
+      "You found this easter egg!",
+      "I miss you in ways I can’t put into words",
       "I wish I could be there when you’re tired and need peace",
-      "and share with you the joys of life","You’re truly special to me",
-      "When the break ends","We'll look back","and be proud of what we've endured for each other",
-      "Out of Love","Out of God's grace","I love you so much","I really, really do!",
-      "We're strong and supported!","We got this :3"
+      "and share with you the joys of life",
+      "You’re truly special to me",
+      "When the break ends",
+      "We'll look back",
+      "and be proud of what we've endured for each other",
+      "Out of Love",
+      "Out of God's grace",
+      "I love you so much",
+      "I really, really do!",
+      "We're strong and supported!",
+      "We got this :3"
     ];
 
- egg.addEventListener('click', () => {
+    egg.addEventListener('click', () => {
       music.play();
       helloText.style.opacity = 1;
       helloText.innerHTML = "";
@@ -383,4 +393,5 @@
   </script>
 </body>
 </html>
+
 
