@@ -21,6 +21,7 @@
       background-size: cover;
       text-align: center;
       overflow-x: hidden;
+      scroll-behavior: smooth;
     }
 
     .egg-container {
@@ -108,7 +109,6 @@
       transition: opacity 0.8s ease-in;
     }
 
-    /* image styles */
     .image-gallery {
       display: none;
       flex-direction: column;
@@ -181,8 +181,6 @@
   <div id="hello"></div>
 
   <!-- Blue Egg content -->
-  <div id="blue-texts"></div>
-
   <div id="blue-gallery" class="image-gallery">
     <div class="image-row image-large">
       <img src="baptism1.jpg" alt="Baptism 1">
@@ -197,6 +195,8 @@
     </div>
   </div>
 
+  <div id="blue-texts"></div>
+
   <!-- Music -->
   <audio id="pink-music" loop>
     <source src="Yasumu_-_Sundays_(mp3.pm).mp3" type="audio/mpeg">
@@ -210,30 +210,19 @@
     /* Countdown */
     const start = new Date(2025, 8, 21);
     const target = new Date(2025, 11, 10);
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
-    const minutesEl = document.getElementById('minutes');
-    const secondsEl = document.getElementById('seconds');
-
-    function pad(n){ return String(n).padStart(2,'0'); }
-    function updateCountdown(){
-      const now = new Date();
-      const diff = target - now;
-      if(diff <= 0){ daysEl.textContent='0'; hoursEl.textContent='00'; minutesEl.textContent='00'; secondsEl.textContent='00'; return; }
-      const totalSeconds=Math.floor(diff/1000);
-      const s=totalSeconds%60;
-      const totalMinutes=Math.floor(totalSeconds/60);
-      const m=totalMinutes%60;
-      const totalHours=Math.floor(totalMinutes/60);
-      const h=totalHours%24;
-      const d=Math.floor(totalHours/24);
-      daysEl.textContent=d; hoursEl.textContent=pad(h); minutesEl.textContent=pad(m); secondsEl.textContent=pad(s);
+    const d=document.getElementById('days'),h=document.getElementById('hours'),
+          m=document.getElementById('minutes'),s=document.getElementById('seconds');
+    function pad(n){return String(n).padStart(2,'0');}
+    function update(){
+      const now=new Date(),diff=target-now;
+      if(diff<=0){d.textContent='0';h.textContent='00';m.textContent='00';s.textContent='00';return;}
+      const t=Math.floor(diff/1000),sec=t%60,min=Math.floor(t/60)%60,hr=Math.floor(t/3600)%24,day=Math.floor(t/86400);
+      d.textContent=day;h.textContent=pad(hr);m.textContent=pad(min);s.textContent=pad(sec);
     }
-    updateCountdown(); setInterval(updateCountdown,1000);
+    update();setInterval(update,1000);
 
     /* Pink egg */
-    const pinkEgg=document.getElementById('pink-egg');
-    const pinkMusic=document.getElementById('pink-music');
+    const pink=document.getElementById('pink-egg'),pinkMusic=document.getElementById('pink-music');
     const hello=document.getElementById('hello');
     const pinkLines=[
       "Hi Jess","You found this easter egg!","I miss you in ways I can’t put into words",
@@ -242,83 +231,59 @@
       "and be proud of what we've endured for each other","Out of Love","Out of God's grace",
       "I love you so much","I really, really do!","We're strong and supported!","We got this :3"
     ];
-
-    pinkEgg.addEventListener('click',()=>{
-      pinkMusic.play();
-      document.getElementById('blue-music').pause();
-      hello.style.opacity=1;
-      hello.innerHTML="";
-      let i=0;
+    pink.addEventListener('click',()=>{
+      pinkMusic.play();document.getElementById('blue-music').pause();
+      hello.style.opacity=1;hello.innerHTML="";let i=0;
       function next(){
         if(i<pinkLines.length){
-          const l=document.createElement("div");
-          l.classList.add("line");
-          l.textContent=pinkLines[i];
-          hello.appendChild(l);
-          setTimeout(()=>{l.style.opacity=1;},50);
-          i++; setTimeout(next,4000);
-        } else {
+          const l=document.createElement("div");l.classList.add("line");
+          l.textContent=pinkLines[i];hello.appendChild(l);
+          setTimeout(()=>{l.style.opacity=1;l.scrollIntoView({behavior:"smooth",block:"end"});},50);
+          i++;setTimeout(next,4000);
+        }else{
           setTimeout(()=>{
-            const j=document.createElement("div");
-            j.classList.add("jess-images");
+            const j=document.createElement("div");j.classList.add("jess-images");
             ["jessme1.jpg","jessme2.jpg","jessme3.jpg"].forEach(s=>{
-              const img=document.createElement("img");
-              img.src=s; img.alt=s; j.appendChild(img);
+              const img=document.createElement("img");img.src=s;j.appendChild(img);
             });
-            hello.appendChild(j);
-            setTimeout(()=>{j.style.opacity=1;},300);
+            hello.appendChild(j);setTimeout(()=>{j.style.opacity=1;j.scrollIntoView({behavior:"smooth",block:"end"});},500);
           },4000);
         }
-      }
-      next();
+      }next();
     });
 
     /* Blue egg */
-    const blueEgg=document.getElementById('blue-egg');
-    const blueMusic=document.getElementById('blue-music');
-    const blueTexts=document.getElementById('blue-texts');
-    const blueGallery=document.getElementById('blue-gallery');
-    const blueLines=[
-      "HAI",
-      "Happi day yesterday ehehheh",
-      "Love flowers from Jess — they mean so much!",
-      "Very thoughtful",
-      "Very pretty",
-      "Thank you so much to you two!!",
-      "I made this pom pom for u",
-      "I hope it may help u study",
-      "and lock the fareeaaak in",
-      "ur so close jess",
-      "add oil rahhhh",
+    const blue=document.getElementById('blue-egg'),blueMusic=document.getElementById('blue-music');
+    const blueTexts=document.getElementById('blue-texts'),gallery=document.getElementById('blue-gallery');
+    const lines=[
+      "HAI","Happi day yesterday ehehheh","Love flowers from Jess — they mean so much!",
+      "Very thoughtful","Very pretty","is very happi", "as a male xD hahaha","Thank you so much to you two!!",
+      "I made this pom pom for u","I hope it may help u study",
+      "and lock the fareeaaak in","ur so close jess","add oil rahhhh",
       "<a href='https://youtu.be/JPrnZvigomg' target='_blank'>Watch this!</a>"
     ];
 
-    blueEgg.addEventListener('click',()=>{
-      blueMusic.currentTime=0; blueMusic.play();
-      pinkMusic.pause();
-      blueTexts.style.opacity=1;
-      blueTexts.innerHTML="";
-      let i=0;
-      function showLine(){
-        if(i<blueLines.length){
-          const l=document.createElement("div");
-          l.classList.add("blue-line");
-          l.innerHTML=blueLines[i];
-          blueTexts.appendChild(l);
-          setTimeout(()=>{l.style.opacity=1;},50);
-          i++; setTimeout(showLine,2500);
-        } else {
-          // After text, fade in images
-          setTimeout(()=>{
-            blueGallery.classList.add('show');
-            const imgs=blueGallery.querySelectorAll('img');
-            imgs.forEach((img,idx)=>{
-              setTimeout(()=>{img.style.opacity=1;},idx*700);
-            });
-          },1000);
-        }
-      }
-      showLine();
+
+    blue.addEventListener('click',()=>{
+      blueMusic.currentTime=0;blueMusic.play();pinkMusic.pause();
+      blueTexts.innerHTML="";blueTexts.style.opacity=1;
+      gallery.classList.add('show');
+      const imgs=gallery.querySelectorAll('img');
+      imgs.forEach((img,idx)=>{
+        setTimeout(()=>{img.style.opacity=1;img.scrollIntoView({behavior:"smooth",block:"end"});},idx*700);
+      });
+      // after photos fade in, show texts
+      setTimeout(()=>{
+        let i=0;
+        function showLine(){
+          if(i<lines.length){
+            const l=document.createElement("div");l.classList.add("blue-line");l.innerHTML=lines[i];
+            blueTexts.appendChild(l);
+            setTimeout(()=>{l.style.opacity=1;l.scrollIntoView({behavior:"smooth",block:"end"});},50);
+            i++;setTimeout(showLine,2500);
+          }
+        }showLine();
+      }, imgs.length*800+500);
     });
   </script>
 </body>
