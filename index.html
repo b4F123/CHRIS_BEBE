@@ -62,7 +62,6 @@
       25% { transform: rotate(3deg); }
       30% { transform: rotate(-3deg); }
       33% { transform: rotate(0deg); }
-      34%, 100% { transform: rotate(0deg); }
     }
 
     .card {
@@ -182,8 +181,6 @@
     }
 
     .image-row img {
-      width: 200px;
-      height: 200px;
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
       object-fit: cover;
@@ -276,7 +273,7 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    // Pink egg
+    // Pink egg text
     const pinkEgg = document.getElementById('pink-egg');
     const helloText = document.getElementById('hello');
     const music = document.getElementById('bg-music');
@@ -319,7 +316,7 @@
       showNextLine();
     });
 
-    // Blue egg (photos)
+    // Blue egg (baptism photos)
     const blueEgg = document.getElementById('blue-egg');
     const photosContainer = document.getElementById('photos');
 
@@ -335,25 +332,34 @@
       imageSection.style.opacity = "0";
       imageSection.style.transition = "opacity 1.5s ease-in";
 
+      // Row 1: big image
       const row1 = document.createElement("div");
       row1.classList.add("image-row");
       const img1 = document.createElement("img");
-      img1.src = "jess%20and%20cwis%20baptisim%20photo.jpg";
+      img1.src = "baptism1.jpg";
+      img1.style.width = "400px";
+      img1.style.height = "400px";
       row1.appendChild(img1);
 
+      // Row 2: two side-by-side
       const row2 = document.createElement("div");
       row2.classList.add("image-row");
-      ["blue%20rose.jpg", "pomflower.jpg"].forEach(src => {
+      ["baptism2.jpg", "baptism3.jpg"].forEach(src => {
         const img = document.createElement("img");
         img.src = src;
+        img.style.width = "200px";
+        img.style.height = "200px";
         row2.appendChild(img);
       });
 
+      // Row 3: two side-by-side
       const row3 = document.createElement("div");
       row3.classList.add("image-row");
-      ["me%20holding.jpg", "mewith.jpg"].forEach(src => {
+      ["baptism4.jpg", "baptism5.jpg"].forEach(src => {
         const img = document.createElement("img");
         img.src = src;
+        img.style.width = "200px";
+        img.style.height = "200px";
         row3.appendChild(img);
       });
 
