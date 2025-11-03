@@ -29,6 +29,7 @@
       align-items: flex-end;
       margin-bottom: 20px;
       position: relative;
+      gap: 40px;
       height: 140px;
       cursor: pointer;
     }
@@ -36,13 +37,22 @@
     .egg {
       width: 70px;
       height: 90px;
-      background: radial-gradient(circle at 40% 30%, #ffffff 0%, #d3d3d3 90%);
       border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
       box-shadow: 0 5px 10px rgba(200, 200, 200, 0.4);
       animation: top-wiggle 3s infinite;
       transform-origin: bottom center;
       position: relative;
       z-index: 1;
+    }
+
+    /* Pink egg gradient */
+    .egg.pink {
+      background: radial-gradient(circle at 40% 30%, #ffffff 0%, #ffb6c1 90%);
+    }
+
+    /* Blue egg gradient */
+    .egg.blue {
+      background: radial-gradient(circle at 40% 30%, #ffffff 0%, #87cefa 90%);
     }
 
     @keyframes top-wiggle {
@@ -102,7 +112,6 @@
       margin-top: 5px;
     }
 
-    /* 🌸 Progress Bar */
     .progress-container {
       width: 100%;
       max-width: 400px;
@@ -165,7 +174,6 @@
       transition: opacity 0.6s ease-in;
     }
 
-    /* 🌸 Image row */
     .image-row {
       display: flex;
       justify-content: center;
@@ -191,7 +199,8 @@
 </head>
 <body>
   <div class="egg-container">
-    <div class="egg"></div>
+    <div class="egg pink" id="pink-egg" title="Click me!"></div>
+    <div class="egg blue" id="blue-egg" title="Click me too!"></div>
   </div>
 
   <div class="card">
@@ -210,6 +219,7 @@
 
   <footer>Audio On!</footer>
   <div id="hello"></div>
+  <div id="photos"></div>
 
   <audio id="bg-music" loop>
     <source src="Yasumu_-_Sundays_(mp3.pm).mp3" type="audio/mpeg">
@@ -217,11 +227,9 @@
   </audio>
 
   <script>
-    // Dates
-    const start = new Date(2025, 8, 21, 0, 0, 0); // September 21, 2025
-    const target = new Date(2025, 11, 10, 0, 0, 0); // December 10, 2025
+    const start = new Date(2025, 8, 21, 0, 0, 0);
+    const target = new Date(2025, 11, 10, 0, 0, 0);
 
-    // Elements
     const daysEl = document.getElementById('days');
     const hoursEl = document.getElementById('hours');
     const minutesEl = document.getElementById('minutes');
@@ -258,7 +266,6 @@
       minutesEl.textContent = pad(m);
       secondsEl.textContent = pad(s);
 
-      // Progress calculation
       const totalDuration = target - start;
       const elapsed = now - start;
       const progress = Math.min(Math.max(elapsed / totalDuration, 0), 1);
@@ -271,8 +278,8 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    // Easter egg logic
-    const egg = document.querySelector('.egg');
+    // Pink egg (messages)
+    const pinkEgg = document.getElementById('pink-egg');
     const helloText = document.getElementById('hello');
     const music = document.getElementById('bg-music');
 
@@ -294,7 +301,7 @@
       "We got this :3"
     ];
 
-    egg.addEventListener('click', () => {
+    pinkEgg.addEventListener('click', () => {
       music.play();
       helloText.style.opacity = 1;
       helloText.innerHTML = "";
@@ -306,40 +313,59 @@
           line.classList.add("line");
           line.textContent = lines[index];
           helloText.appendChild(line);
-          setTimeout(() => { 
-            line.style.opacity = 1; 
-            line.scrollIntoView({ behavior: 'smooth', block: 'end' });
-          }, 50);
+          setTimeout(() => { line.style.opacity = 1; }, 50);
         }
         index++;
-
-        if (index < lines.length) {
-          setTimeout(showNextLine, 4000);
-        } else {
-          // Show images after last line
-          setTimeout(() => {
-            const imgContainer = document.createElement("div");
-            imgContainer.classList.add("image-row");
-
-            const imgNames = ["jessme1", "jessme2", "jessme3"];
-            imgNames.forEach(name => {
-              const img = document.createElement("img");
-              img.src = `${name}.jpg`;
-              img.alt = name;
-              img.classList.add("fade-img");
-              imgContainer.appendChild(img);
-            });
-
-            helloText.appendChild(imgContainer);
-            setTimeout(() => { 
-              imgContainer.style.opacity = 1;
-              imgContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
-            }, 100);
-          }, 4000);
-        }
+        if (index < lines.length) setTimeout(showNextLine, 4000);
       }
-
       showNextLine();
+    });
+
+    // Blue egg (photos)
+    const blueEgg = document.getElementById('blue-egg');
+    const photosContainer = document.getElementById('photos');
+
+    blueEgg.addEventListener('click', () => {
+      photosContainer.innerHTML = "";
+
+      const imageSection = document.createElement("div");
+      imageSection.style.display = "flex";
+      imageSection.style.flexDirection = "column";
+      imageSection.style.alignItems = "center";
+      imageSection.style.gap = "25px";
+      imageSection.style.marginTop = "30px";
+      imageSection.style.opacity = "0";
+      imageSection.style.transition = "opacity 1.5s ease-in";
+
+      const row1 = document.createElement("div");
+      row1.classList.add("image-row");
+      const img1 = document.createElement("img");
+      img1.src = "jess and cwis baptism photo.jpg";
+      row1.appendChild(img1);
+
+      const row2 = document.createElement("div");
+      row2.classList.add("image-row");
+      ["blue rose.jpg", "pomflower.jpg"].forEach(src => {
+        const img = document.createElement("img");
+        img.src = src;
+        row2.appendChild(img);
+      });
+
+      const row3 = document.createElement("div");
+      row3.classList.add("image-row");
+      ["me holding.jpg", "mewith.jpg"].forEach(src => {
+        const img = document.createElement("img");
+        img.src = src;
+        row3.appendChild(img);
+      });
+
+      imageSection.appendChild(row1);
+      imageSection.appendChild(row2);
+      imageSection.appendChild(row3);
+      photosContainer.appendChild(imageSection);
+
+      setTimeout(() => { imageSection.style.opacity = "1"; }, 100);
+      imageSection.scrollIntoView({ behavior: "smooth", block: "end" });
     });
   </script>
 </body>
