@@ -27,22 +27,28 @@
       display: flex;
       justify-content: center;
       align-items: flex-end;
+      gap: 40px;
       margin-bottom: 20px;
       position: relative;
       height: 140px;
-      cursor: pointer;
     }
 
     .egg {
       width: 70px;
       height: 90px;
-      background: radial-gradient(circle at 40% 30%, #ffffff 0%, #d3d3d3 90%);
       border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
       box-shadow: 0 5px 10px rgba(200, 200, 200, 0.4);
-      animation: top-wiggle 3s infinite;
       transform-origin: bottom center;
-      position: relative;
-      z-index: 1;
+      cursor: pointer;
+      animation: top-wiggle 3s infinite;
+    }
+
+    .egg.pink {
+      background: radial-gradient(circle at 40% 30%, #ffffff 0%, #d3d3d3 90%);
+    }
+
+    .egg.blue {
+      background: radial-gradient(circle at 40% 30%, #cce8ff 0%, #5ca8ff 90%);
     }
 
     @keyframes top-wiggle {
@@ -54,292 +60,68 @@
       25% { transform: rotate(3deg); }
       30% { transform: rotate(-3deg); }
       33% { transform: rotate(0deg); }
-      34%, 100% { transform: rotate(0deg); }
     }
 
-    .card {
-      background: #fff8fb;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
-      padding: 30px;
-      display: inline-block;
-      min-width: 320px;
-    }
-
-    .countdown {
-      display: flex;
-      justify-content: center;
+    .image-gallery {
+      display: none;
+      flex-direction: column;
+      align-items: center;
       gap: 15px;
-    }
-
-    .box {
-      background: #f9a7c3;
-      border-radius: 20px;
-      padding: 20px;
-      width: 90px;
-      height: 90px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-family: 'Fredoka One', cursive;
-      font-weight: bold;
-      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
-      font-size: 1.6em;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .box:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 14px rgba(255, 105, 180, 0.4);
-    }
-
-    .label {
-      font-size: 0.7em;
-      font-weight: normal;
-      color: rgba(255, 255, 255, 0.95);
-      margin-top: 5px;
-    }
-
-    /* 🌸 Progress Bar */
-    .progress-container {
-      width: 100%;
-      max-width: 400px;
-      height: 24px;
-      background-color: #ffe4f2;
-      border-radius: 15px;
-      overflow: hidden;
-      margin: 25px auto 0 auto;
-      box-shadow: inset 0 2px 5px rgba(255, 182, 193, 0.4);
-      position: relative;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #f98bb3, #ffb6c1);
-      border-radius: 15px 0 0 15px;
-      transition: width 1s ease-in-out;
-    }
-
-    .progress-text {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      font-family: 'Fredoka One', cursive;
-      color: #d46a8c;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.95em;
-      pointer-events: none;
-    }
-
-    footer {
-      margin-top: 30px;
-      font-family: 'Fredoka One', cursive;
-      font-size: 2.3em;
-      color: #d46a8c;
-      letter-spacing: 1px;
-      text-shadow: 0 3px 6px rgba(255, 192, 203, 0.6);
-    }
-
-    #hello {
+      margin-top: 25px;
       opacity: 0;
-      transition: opacity 1.5s;
-      font-family: 'Fredoka One', cursive;
-      font-size: 2em;
-      color: #d46a8c;
-      margin-top: 15px;
+      transition: opacity 1s;
+    }
+
+    .image-gallery.show {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
+      opacity: 1;
     }
 
-    .line {
-      opacity: 0;
-      transition: opacity 0.6s ease-in;
+    .image-gallery img {
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      object-fit: cover;
     }
 
-    /* 🌸 Image row */
+    .image-large img { width: 400px; height: auto; }
+    .image-medium img { width: 200px; height: auto; }
+    .image-small img { width: 120px; height: auto; }
+
     .image-row {
       display: flex;
       justify-content: center;
       gap: 15px;
-      margin-top: 20px;
-      opacity: 0;
-      transition: opacity 1.5s ease-in;
-    }
-
-    .image-row img {
-      width: 200px;
-      height: 200px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-
-    .image-row img:hover {
-      transform: scale(1.08);
     }
   </style>
 </head>
 <body>
+
   <div class="egg-container">
-    <div class="egg"></div>
+    <div class="egg pink" id="pink-egg"></div>
+    <div class="egg blue" id="blue-egg"></div>
   </div>
 
-  <div class="card">
-    <div class="countdown">
-      <div class="box"><span id="days">0</span><span class="label">Days</span></div>
-      <div class="box"><span id="hours">00</span><span class="label">Hours</span></div>
-      <div class="box"><span id="minutes">00</span><span class="label">Minutes</span></div>
-      <div class="box"><span id="seconds">00</span><span class="label">Seconds</span></div>
+  <div id="blue-gallery" class="image-gallery">
+    <div class="image-row image-large">
+      <img src="baptism1.jpg" alt="Baptism 1">
     </div>
-
-    <div class="progress-container">
-      <div class="progress-bar" id="progress-bar"></div>
-      <div class="progress-text" id="progress-text">0% done</div>
+    <div class="image-row image-medium">
+      <img src="baptism2.jpg" alt="Baptism 2">
+      <img src="baptism3.jpg" alt="Baptism 3">
+    </div>
+    <div class="image-row image-small">
+      <img src="baptism4.jpg" alt="Baptism 4">
+      <img src="baptism5.jpg" alt="Baptism 5">
     </div>
   </div>
-
-  <footer>Audio On!</footer>
-  <div id="hello"></div>
-
-  <audio id="bg-music" loop>
-    <source src="Yasumu_-_Sundays_(mp3.pm).mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
 
   <script>
-    // Dates
-    const start = new Date(2025, 8, 21, 0, 0, 0); // September 21, 2025
-    const target = new Date(2025, 11, 10, 0, 0, 0); // December 10, 2025
+    const blueEgg = document.getElementById('blue-egg');
+    const blueGallery = document.getElementById('blue-gallery');
 
-    // Elements
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
-    const minutesEl = document.getElementById('minutes');
-    const secondsEl = document.getElementById('seconds');
-    const progressBar = document.getElementById('progress-bar');
-    const progressText = document.getElementById('progress-text');
-
-    function pad(n) { return String(n).padStart(2, '0'); }
-
-    function updateCountdown() {
-      const now = new Date();
-      const diff = target - now;
-
-      if (diff <= 0) {
-        daysEl.textContent = '0';
-        hoursEl.textContent = '00';
-        minutesEl.textContent = '00';
-        secondsEl.textContent = '00';
-        progressBar.style.width = '100%';
-        progressText.textContent = '100% done 🎉';
-        return;
-      }
-
-      const totalSeconds = Math.floor(diff / 1000);
-      const s = totalSeconds % 60;
-      const totalMinutes = Math.floor(totalSeconds / 60);
-      const m = totalMinutes % 60;
-      const totalHours = Math.floor(totalMinutes / 60);
-      const h = totalHours % 24;
-      const d = Math.floor(totalHours / 24);
-
-      daysEl.textContent = d;
-      hoursEl.textContent = pad(h);
-      minutesEl.textContent = pad(m);
-      secondsEl.textContent = pad(s);
-
-      // Progress calculation
-      const totalDuration = target - start;
-      const elapsed = now - start;
-      const progress = Math.min(Math.max(elapsed / totalDuration, 0), 1);
-      const percent = (progress * 100).toFixed(1);
-
-      progressBar.style.width = percent + '%';
-      progressText.textContent = `${percent}% done`;
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    // Easter egg logic
-    const egg = document.querySelector('.egg');
-    const helloText = document.getElementById('hello');
-    const music = document.getElementById('bg-music');
-
-    const lines = [
-      "Hi Jess",
-      "You found this easter egg!",
-      "I miss you in ways I can’t put into words",
-      "I wish I could be there when you’re tired and need peace",
-      "and share with you the joys of life",
-      "You’re truly special to me",
-      "When the break ends",
-      "We'll look back",
-      "and be proud of what we've endured for each other",
-      "Out of Love",
-      "Out of God's grace",
-      "I love you so much",
-      "I really, really do!",
-      "We're strong and supported!",
-      "We got this :3"
-    ];
-
-    egg.addEventListener('click', () => {
-      music.play();
-      helloText.style.opacity = 1;
-      helloText.innerHTML = "";
-
-      let index = 0;
-      function showNextLine() {
-        if (index < lines.length) {
-          const line = document.createElement("div");
-          line.classList.add("line");
-          line.textContent = lines[index];
-          helloText.appendChild(line);
-          setTimeout(() => { 
-            line.style.opacity = 1; 
-            line.scrollIntoView({ behavior: 'smooth', block: 'end' });
-          }, 50);
-        }
-        index++;
-
-        if (index < lines.length) {
-          setTimeout(showNextLine, 4000);
-        } else {
-          // Show images after last line
-          setTimeout(() => {
-            const imgContainer = document.createElement("div");
-            imgContainer.classList.add("image-row");
-
-            const imgNames = ["jessme1", "jessme2", "jessme3"];
-            imgNames.forEach(name => {
-              const img = document.createElement("img");
-              img.src = `${name}.jpg`;
-              img.alt = name;
-              img.classList.add("fade-img");
-              imgContainer.appendChild(img);
-            });
-
-            helloText.appendChild(imgContainer);
-            setTimeout(() => { 
-              imgContainer.style.opacity = 1;
-              imgContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
-            }, 100);
-          }, 4000);
-        }
-      }
-
-      showNextLine();
+    blueEgg.addEventListener('click', () => {
+      blueGallery.classList.toggle('show');
+      blueGallery.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
   </script>
 </body>
