@@ -325,38 +325,51 @@
       "We're strong and supported!","We got this :3"
     ];
 
-    egg.addEventListener('click', () => {
+ egg.addEventListener('click', () => {
       music.play();
       helloText.style.opacity = 1;
       helloText.innerHTML = "";
+
       let index = 0;
-      function showNextLine(){
-        if(index < lines.length){
-          const line=document.createElement("div");
+      function showNextLine() {
+        if (index < lines.length) {
+          const line = document.createElement("div");
           line.classList.add("line");
-          line.textContent=lines[index];
+          line.textContent = lines[index];
           helloText.appendChild(line);
-          setTimeout(()=>{ line.style.opacity=1; line.scrollIntoView({behavior:'smooth',block:'end'}); },50);
+          setTimeout(() => { 
+            line.style.opacity = 1; 
+            line.scrollIntoView({ behavior: 'smooth', block: 'end' });
+          }, 50);
         }
         index++;
-        if(index < lines.length){
-          setTimeout(showNextLine,4000);
+
+        if (index < lines.length) {
+          setTimeout(showNextLine, 4000);
         } else {
+          // Show images after last line
           setTimeout(() => {
-            const jessContainer = document.createElement("div");
-            jessContainer.classList.add("jess-images");
-            const jessImgs = ["jessme1.jpg","jessme2.jpg","jessme3.jpg"];
-            jessImgs.forEach(src => {
+            const imgContainer = document.createElement("div");
+            imgContainer.classList.add("image-row");
+
+            const imgNames = ["jessme1", "jessme2", "jessme3"];
+            imgNames.forEach(name => {
               const img = document.createElement("img");
-              img.src = src;
-              img.alt = src;
-              jessContainer.appendChild(img);
+              img.src = `${name}.jpg`;
+              img.alt = name;
+              img.classList.add("fade-img");
+              imgContainer.appendChild(img);
             });
-            helloText.appendChild(jessContainer);
-            setTimeout(() => { jessContainer.style.opacity = 1; jessContainer.scrollIntoView({behavior:'smooth'}); }, 200);
+
+            helloText.appendChild(imgContainer);
+            setTimeout(() => { 
+              imgContainer.style.opacity = 1;
+              imgContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }, 100);
           }, 4000);
         }
       }
+
       showNextLine();
     });
 
@@ -370,3 +383,4 @@
   </script>
 </body>
 </html>
+
