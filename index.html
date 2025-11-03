@@ -177,7 +177,7 @@
       gap: 15px;
       margin-top: 20px;
       opacity: 0;
-      transition: opacity 1.5s ease-in;
+      transition: opacity 1s ease-in;
     }
 
     .image-row img {
@@ -222,154 +222,130 @@
   </audio>
 
   <script>
-    const start = new Date(2025, 8, 21, 0, 0, 0);
-    const target = new Date(2025, 11, 10, 0, 0, 0);
+    window.addEventListener('DOMContentLoaded', () => {
+      // countdown
+      const start = new Date(2025, 8, 21, 0, 0, 0);
+      const target = new Date(2025, 11, 10, 0, 0, 0);
+      const daysEl = document.getElementById('days');
+      const hoursEl = document.getElementById('hours');
+      const minutesEl = document.getElementById('minutes');
+      const secondsEl = document.getElementById('seconds');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
 
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
-    const minutesEl = document.getElementById('minutes');
-    const secondsEl = document.getElementById('seconds');
-    const progressBar = document.getElementById('progress-bar');
-    const progressText = document.getElementById('progress-text');
-
-    function pad(n) { return String(n).padStart(2, '0'); }
-
-    function updateCountdown() {
-      const now = new Date();
-      const diff = target - now;
-
-      if (diff <= 0) {
-        daysEl.textContent = '0';
-        hoursEl.textContent = '00';
-        minutesEl.textContent = '00';
-        secondsEl.textContent = '00';
-        progressBar.style.width = '100%';
-        progressText.textContent = '100% done 🎉';
-        return;
-      }
-
-      const totalSeconds = Math.floor(diff / 1000);
-      const s = totalSeconds % 60;
-      const totalMinutes = Math.floor(totalSeconds / 60);
-      const m = totalMinutes % 60;
-      const totalHours = Math.floor(totalMinutes / 60);
-      const h = totalHours % 24;
-      const d = Math.floor(totalHours / 24);
-
-      daysEl.textContent = d;
-      hoursEl.textContent = pad(h);
-      minutesEl.textContent = pad(m);
-      secondsEl.textContent = pad(s);
-
-      const totalDuration = target - start;
-      const elapsed = now - start;
-      const progress = Math.min(Math.max(elapsed / totalDuration, 0), 1);
-      const percent = (progress * 100).toFixed(1);
-
-      progressBar.style.width = percent + '%';
-      progressText.textContent = `${percent}% done`;
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    // Pink egg text
-    const pinkEgg = document.getElementById('pink-egg');
-    const helloText = document.getElementById('hello');
-    const music = document.getElementById('bg-music');
-
-    const lines = [
-      "Hi Jess",
-      "You found this easter egg!",
-      "I miss you in ways I can’t put into words",
-      "I wish I could be there when you’re tired and need peace",
-      "and share with you the joys of life",
-      "You’re truly special to me",
-      "When the break ends",
-      "We'll look back",
-      "and be proud of what we've endured for each other",
-      "Out of Love",
-      "Out of God's grace",
-      "I love you so much",
-      "I really, really do!",
-      "We're strong and supported!",
-      "We got this :3"
-    ];
-
-    pinkEgg.addEventListener('click', () => {
-      music.play();
-      helloText.style.opacity = 1;
-      helloText.innerHTML = "";
-
-      let index = 0;
-      function showNextLine() {
-        if (index < lines.length) {
-          const line = document.createElement("div");
-          line.classList.add("line");
-          line.textContent = lines[index];
-          helloText.appendChild(line);
-          setTimeout(() => { line.style.opacity = 1; }, 50);
+      function pad(n){return String(n).padStart(2,'0');}
+      function updateCountdown(){
+        const now=new Date();
+        const diff=target-now;
+        if(diff<=0){
+          daysEl.textContent='0';
+          hoursEl.textContent='00';
+          minutesEl.textContent='00';
+          secondsEl.textContent='00';
+          progressBar.style.width='100%';
+          progressText.textContent='100% done 🎉';
+          return;
         }
-        index++;
-        if (index < lines.length) setTimeout(showNextLine, 4000);
+        const totalSeconds=Math.floor(diff/1000);
+        const s=totalSeconds%60;
+        const totalMinutes=Math.floor(totalSeconds/60);
+        const m=totalMinutes%60;
+        const totalHours=Math.floor(totalMinutes/60);
+        const h=totalHours%24;
+        const d=Math.floor(totalHours/24);
+        daysEl.textContent=d;
+        hoursEl.textContent=pad(h);
+        minutesEl.textContent=pad(m);
+        secondsEl.textContent=pad(s);
+        const totalDuration=target-start;
+        const elapsed=now-start;
+        const progress=Math.min(Math.max(elapsed/totalDuration,0),1);
+        const percent=(progress*100).toFixed(1);
+        progressBar.style.width=percent+'%';
+        progressText.textContent=`${percent}% done`;
       }
-      showNextLine();
-    });
+      updateCountdown();
+      setInterval(updateCountdown,1000);
 
-    // Blue egg (baptism photos)
-    const blueEgg = document.getElementById('blue-egg');
-    const photosContainer = document.getElementById('photos');
-
-    blueEgg.addEventListener('click', () => {
-      photosContainer.innerHTML = "";
-
-      const imageSection = document.createElement("div");
-      imageSection.style.display = "flex";
-      imageSection.style.flexDirection = "column";
-      imageSection.style.alignItems = "center";
-      imageSection.style.gap = "25px";
-      imageSection.style.marginTop = "30px";
-      imageSection.style.opacity = "0";
-      imageSection.style.transition = "opacity 1.5s ease-in";
-
-      // Row 1: big image
-      const row1 = document.createElement("div");
-      row1.classList.add("image-row");
-      const img1 = document.createElement("img");
-      img1.src = "baptism1.jpg";
-      img1.style.width = "400px";
-      img1.style.height = "400px";
-      row1.appendChild(img1);
-
-      // Row 2: two side-by-side
-      const row2 = document.createElement("div");
-      row2.classList.add("image-row");
-      ["baptism2.jpg", "baptism3.jpg"].forEach(src => {
-        const img = document.createElement("img");
-        img.src = src;
-        img.style.width = "200px";
-        img.style.height = "200px";
-        row2.appendChild(img);
+      // pink egg text
+      const pinkEgg=document.getElementById('pink-egg');
+      const helloText=document.getElementById('hello');
+      const music=document.getElementById('bg-music');
+      const lines=[
+        "Hi Jess","You found this easter egg!","I miss you in ways I can’t put into words",
+        "I wish I could be there when you’re tired and need peace","and share with you the joys of life",
+        "You’re truly special to me","When the break ends","We'll look back",
+        "and be proud of what we've endured for each other","Out of Love","Out of God's grace",
+        "I love you so much","I really, really do!","We're strong and supported!","We got this :3"
+      ];
+      pinkEgg.addEventListener('click',()=>{
+        music.play();
+        helloText.style.opacity=1;
+        helloText.innerHTML="";
+        let i=0;
+        function showNext(){
+          if(i<lines.length){
+            const line=document.createElement("div");
+            line.classList.add("line");
+            line.textContent=lines[i];
+            helloText.appendChild(line);
+            setTimeout(()=>{line.style.opacity=1;},50);
+          }
+          i++;
+          if(i<lines.length)setTimeout(showNext,4000);
+        }
+        showNext();
       });
 
-      // Row 3: two side-by-side
-      const row3 = document.createElement("div");
-      row3.classList.add("image-row");
-      ["baptism4.jpg", "baptism5.jpg"].forEach(src => {
-        const img = document.createElement("img");
-        img.src = src;
-        img.style.width = "200px";
-        img.style.height = "200px";
-        row3.appendChild(img);
+      // blue egg photos
+      const blueEgg=document.getElementById('blue-egg');
+      const photosContainer=document.getElementById('photos');
+      blueEgg.addEventListener('click',()=>{
+        photosContainer.innerHTML="";
+        const section=document.createElement("div");
+        section.style.display="flex";
+        section.style.flexDirection="column";
+        section.style.alignItems="center";
+        section.style.gap="25px";
+        section.style.marginTop="30px";
+        section.style.opacity="0";
+        section.style.transition="opacity 1.2s ease-in-out";
+
+        const row1=document.createElement("div");
+        row1.classList.add("image-row");
+        const big=document.createElement("img");
+        big.src="baptism1.jpg";
+        big.style.width="400px";
+        big.style.height="400px";
+        row1.appendChild(big);
+
+        const row2=document.createElement("div");
+        row2.classList.add("image-row");
+        ["baptism2.jpg","baptism3.jpg"].forEach(src=>{
+          const img=document.createElement("img");
+          img.src=src;
+          img.style.width="200px";
+          img.style.height="200px";
+          row2.appendChild(img);
+        });
+
+        const row3=document.createElement("div");
+        row3.classList.add("image-row");
+        ["baptism4.jpg","baptism5.jpg"].forEach(src=>{
+          const img=document.createElement("img");
+          img.src=src;
+          img.style.width="200px";
+          img.style.height="200px";
+          row3.appendChild(img);
+        });
+
+        section.appendChild(row1);
+        section.appendChild(row2);
+        section.appendChild(row3);
+        photosContainer.appendChild(section);
+        setTimeout(()=>{section.style.opacity="1";},50);
+        section.scrollIntoView({behavior:"smooth",block:"end"});
       });
-
-      imageSection.appendChild(row1);
-      imageSection.appendChild(row2);
-      imageSection.appendChild(row3);
-      photosContainer.appendChild(imageSection);
-
-      setTimeout(() => { imageSection.style.opacity = "1"; }, 100);
-      imageSection.scrollIntoView({ behavior: "smooth", block: "end" });
     });
   </script>
 </body>
