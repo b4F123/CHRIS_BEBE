@@ -393,15 +393,15 @@
         document.body.style.background = "#000";
         document.body.innerHTML = `Your reaction time: ${reaction} ms<br><br>`;
 
-        if (reaction <= bestScore) {
+        if (reaction <= 144) {
             document.body.innerHTML += `<span style="color:lightgreen;">good job!</span>`;
         } else {
             failCount++;
 
-            let hint = failCount >= 5 ? "<br><br>hint: just cheat :P" : "";
+            let hint = failCount >= 3 ? "<br><br>hint: just cheat :P" : "";
 
             document.body.innerHTML += `
-                Try again to beat ${bestScore} ms.
+                Try again to beat my best in 10 attempts (144ms).
                 ${hint}
             `;
         }
@@ -415,6 +415,7 @@
   
 </body>
 </html>
+
 
 
 
