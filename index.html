@@ -330,6 +330,7 @@
   </script>
 <script>
 (function(){
+    let failCount = 0;
     let spaceCount = 0;
     let secretActivated = false;
     let waitingForGreen = false;
@@ -358,6 +359,23 @@
 
         document.addEventListener("click", beginRound, { once: true });
     }
+
+  function earlyClick() {
+    if (!hasTurnedGreen) {
+        failCount++;
+
+        let extraMsg = failCount >= 5 ? "<br><br>find a way to cheat lol :P" : "";
+
+        document.body.style.background = "#000";
+        document.body.innerHTML = `
+            Too early! You clicked before green.<br><br>
+            <button id="restartBtn">Try again</button>
+            ${extraMsg}
+        `;
+
+        document.getElementById("restartBtn").addEventListener("click", startReactionTest);
+    }
+}
 
     function beginRound() {
         // Immediately detect early clicks
@@ -420,5 +438,6 @@
   
 </body>
 </html>
+
 
 
