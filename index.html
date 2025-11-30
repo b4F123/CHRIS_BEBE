@@ -357,29 +357,14 @@
 
         hasTurnedGreen = false;
 
+        // Start round when they click
         document.addEventListener("click", beginRound, { once: true });
     }
 
-  function earlyClick() {
-    if (!hasTurnedGreen) {
-        failCount++;
-
-        let extraMsg = failCount >= 5 ? "<br><br>find a way to cheat lol :P" : "";
-
-        document.body.style.background = "#000";
-        document.body.innerHTML = `
-            Too early! You clicked before green.<br><br>
-            <button id="restartBtn">Try again</button>
-            ${extraMsg}
-        `;
-
-        document.getElementById("restartBtn").addEventListener("click", startReactionTest);
-    }
-}
-
     function beginRound() {
-        // Immediately detect early clicks
-        document.body.addEventListener("click", earlyClick, { once: true });
+
+        // No early-click punishment anymore
+        // Player can click red as much as they want to cheat
 
         document.body.style.background = "#f00";
         document.body.innerHTML = "Wait for green...";
@@ -396,16 +381,12 @@
             startTime = Date.now();
             waitingForGreen = false;
 
-            // Remove early click listener
-            document.body.removeEventListener("click", earlyClick);
-
             document.body.addEventListener("click", captureTime, { once: true });
         }, delay);
     }
 
-
     function captureTime() {
-        if (!hasTurnedGreen) return; // just in case
+        if (!hasTurnedGreen) return;
 
         const reaction = Date.now() - startTime;
 
@@ -415,7 +396,14 @@
         if (reaction <= bestScore) {
             document.body.innerHTML += `<span style="color:lightgreen;">good job!</span>`;
         } else {
-            document.body.innerHTML += `Try again to beat ${bestScore} ms.`;
+            failCount++;
+
+            let hint = failCount >= 5 ? "<br><br>hint: just cheat :P" : "";
+
+            document.body.innerHTML += `
+                Try again to beat ${bestScore} ms.
+                ${hint}
+            `;
         }
 
         document.body.innerHTML += `<br><br><button id="restartBtn">Try again</button>`;
@@ -427,6 +415,7 @@
   
 </body>
 </html>
+
 
 
 
