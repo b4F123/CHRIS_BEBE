@@ -403,17 +403,6 @@
         }, delay);
     }
 
-    function earlyClick() {
-        if (!hasTurnedGreen) {
-            // User clicked too early
-            document.body.style.background = "#000";
-            document.body.innerHTML = `
-                Too early! You clicked before green.<br><br>
-                <button id="restartBtn">Try again</button>
-            `;
-            document.getElementById("restartBtn").addEventListener("click", startReactionTest);
-        }
-    }
 
     function captureTime() {
         if (!hasTurnedGreen) return; // just in case
@@ -438,6 +427,7 @@
   
 </body>
 </html>
+
 
 
 
