@@ -351,133 +351,154 @@ document.addEventListener("keydown", e => {
   }
 });
 
-/* ===========================
-   PONG GAME LOGIC
-   =========================== */
+<!-- ===== SECRET PONG GAME ===== -->
+<canvas id="pong" width="600" height="400" 
+        style="display:none;margin-top:40px;border-radius:10px;
+               box-shadow:0 0 20px rgba(0,0,0,0.3);background:#111;">
+</canvas>
+
+<div id="pong-message"
+     style="opacity:0;transition:1.5s ease;margin-top:20px;
+            font-size:1.8em;font-family:'Fredoka One';color:#d46a8c;">
+</div>
+
+<script>
+let spaceCount = 0;
+let pongShown = false;
+
+document.addEventListener("keydown", e => {
+  if(e.code === "Space"){
+    spaceCount++;
+    if(spaceCount >= 10 && !pongShown){
+      pongShown = true;
+      startPong();
+    }
+  }
+});
+
 function startPong(){
-  const canvas = document.getElementById("pongCanvas");
+  const canvas = document.getElementById("pong");
   const ctx = canvas.getContext("2d");
   canvas.style.display = "block";
 
-  let playerY = canvas.height / 2 - 40;
-  let botY = canvas.height / 2 - 40;
+  // Game objects
+  const paddleHeight = 80, paddleWidth = 12;
+  let playerY = canvas.height/2 - paddleHeight/2;
+  let botY = playerY;
 
-  const paddleW = 12, paddleH = 80;
-  const botSpeed = 3;
+  // delayed bot memory (stores previous player positions)
+  let delayedPositions = [];
+  const delayFrames = 60; // approx 1 second @ 60fps
 
-  let ballX = canvas.width / 2;
-  let ballY = canvas.height / 2;
-  let ballSize = 10;
-  let ballDX = 4;
-  let ballDY = 3;
+  const ball = {
+    x: canvas.width/2,
+    y: canvas.height/2,
+    size: 10,
+    vx: 4,
+    vy: 3
+  };
 
   let playerScore = 0;
   let botScore = 0;
+  let running = true;
 
+  // Player paddle movement
   document.addEventListener("mousemove", e => {
     const rect = canvas.getBoundingClientRect();
-    playerY = e.clientY - rect.top - paddleH / 2;
+    const mouseY = e.clientY - rect.top;
+    playerY = mouseY - paddleHeight/2;
   });
-
-  function moveBot(){
-    const botCenter = botY + paddleH / 2;
-
-    if(botCenter < ballY - 10){
-      botY += botSpeed;
-    } else if(botCenter > ballY + 10){
-      botY -= botSpeed;
-    }
-    botY = Math.max(0, Math.min(canvas.height - paddleH, botY));
-  }
-
-  function update(){
-    moveBot();
-
-    ballX += ballDX;
-    ballY += ballDY;
-
-    if(ballY <= 0 || ballY + ballSize >= canvas.height){
-      ballDY *= -1;
-    }
-
-    // Player paddle collision
-    if(ballX <= paddleW &&
-       ballY + ballSize >= playerY &&
-       ballY <= playerY + paddleH){
-      ballDX = Math.abs(ballDX);
-    }
-
-    // Bot paddle collision
-    if(ballX + ballSize >= canvas.width - paddleW &&
-       ballY + ballSize >= botY &&
-       ballY <= botY + paddleH){
-      ballDX = -Math.abs(ballDX);
-    }
-
-    // Score
-    if(ballX < 0){
-      botScore++;
-      resetBall();
-    }
-    if(ballX > canvas.width){
-      playerScore++;
-      resetBall();
-    }
-
-    if(playerScore >= 10){
-      gameOver();
-    }
-  }
-
-  function resetBall(){
-    ballX = canvas.width / 2;
-    ballY = canvas.height / 2;
-    ballDX *= -1;
-    ballDY = (Math.random() * 4) - 2;
-  }
-
-  function gameOver(){
-    cancelAnimationFrame(animation);
-    const msg = document.getElementById("pongMessage");
-    msg.textContent = "YOU WIN! 🎉✨";
-    msg.style.opacity = "1";
-  }
 
   function draw(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
+    // Ball
     ctx.fillStyle = "white";
+    ctx.fillRect(ball.x, ball.y, ball.size, ball.size);
 
-    // player
-    ctx.fillRect(0, playerY, paddleW, paddleH);
+    // Player paddle
+    ctx.fillRect(20, playerY, paddleHeight/8, paddleHeight);
 
-    // bot
-    ctx.fillRect(canvas.width - paddleW, botY, paddleW, paddleH);
+    // Bot paddle
+    ctx.fillRect(canvas.width - 20 - paddleWidth, botY, paddleWidth, paddleHeight);
 
-    // ball
-    ctx.fillRect(ballX, ballY, ballSize, ballSize);
-
-    // score
-    ctx.font = "20px Fredoka One";
-    ctx.fillText(playerScore, canvas.width/2 - 30, 30);
-    ctx.fillText(botScore, canvas.width/2 + 20, 30);
+    // Scores
+    ctx.font = "32px Fredoka One";
+    ctx.fillText(playerScore, canvas.width/2 - 40, 40);
+    ctx.fillText(botScore, canvas.width/2 + 20, 40);
   }
 
-  function loop(){
-    update();
+  function update(){
+    if(!running) return;
+
+    // Store player positions for bot delay
+    delayedPositions.push(playerY);
+    if(delayedPositions.length > delayFrames){
+      botY = delayedPositions.shift();  // 1 second delayed following
+    }
+
+    // Ball movement
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+
+    // Bounce on top/bottom
+    if(ball.y <= 0 || ball.y + ball.size >= canvas.height){
+      ball.vy *= -1;
+    }
+
+    // Player paddle collision
+    if(ball.x <= 30 &&
+       ball.y + ball.size >= playerY &&
+       ball.y <= playerY + paddleHeight){
+      ball.vx *= -1;
+    }
+
+    // Bot paddle collision
+    if(ball.x + ball.size >= canvas.width - 30 &&
+       ball.y + ball.size >= botY &&
+       ball.y <= botY + paddleHeight){
+      ball.vx *= -1;
+    }
+
+    // Score check
+    if(ball.x < 0){
+      botScore++;
+      resetBall();
+    }
+    if(ball.x > canvas.width){
+      playerScore++;
+      resetBall();
+    }
+
+    // Winning condition
+    if(playerScore >= 10){
+      running = false;
+      showWinMessage();
+    }
+
     draw();
-    animation = requestAnimationFrame(loop);
+    requestAnimationFrame(update);
   }
 
-  let animation = requestAnimationFrame(loop);
+  function resetBall(){
+    ball.x = canvas.width/2;
+    ball.y = canvas.height/2;
+    ball.vx *= -1;
+    ball.vy = 3 * (Math.random() > 0.5 ? 1 : -1);
+  }
+
+  function showWinMessage(){
+    const msg = document.getElementById("pong-message");
+    msg.textContent = "YOU WON! You're cracked 😳🔥";
+    msg.style.opacity = 1;
+  }
+
+  update();
 }
 </script>
-
-
-
-
 </body>
 </html>
+
 
 
 
